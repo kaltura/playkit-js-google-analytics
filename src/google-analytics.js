@@ -82,10 +82,11 @@ export default class GoogleAnalytics extends BasePlugin {
       }
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () {
-        dataLayer.push(arguments);
+        window.dataLayer.push(arguments);
       };
-      gtag('js', new Date());
-      gtag('config', this.config.trackingId);
+      // $FlowFixMe
+      window.gtag('js', new Date());
+      window.gtag('config', this.config.trackingId);
     }
   }
 
@@ -98,13 +99,15 @@ export default class GoogleAnalytics extends BasePlugin {
     Object.entries(this.config.tracking.events).forEach(([eventName, eventParams]) => {
       this.eventManager.listen(this.player, this.player.Event[eventName], () => {
         try {
-          const eventObj = {
-            action: eventParams.action,
-            category: eventParams.category || this.config.tracking.category,
-            label: eventParams.label ? eventParams.label.call(this) : this.config.tracking.label.call(this),
-            value: eventParams.value ? eventParams.value.call(this) : undefined
-          };
-          this._sendEvent(eventObj);
+          if (eventParams && typeof eventParams === 'object') {
+            const eventObj = {
+              action: eventParams.action,
+              category: eventParams.category || this.config.tracking.category,
+              label: eventParams.label && typeof eventParams.label === 'function' ? eventParams.label.call(this) : this.config.tracking.label.call(this),
+              value: eventParams.value && typeof eventParams.value === 'function' ? eventParams.value.call(this) : undefined
+            };
+            this._sendEvent(eventObj);
+          }
         }
         catch (e) {
           this.logger.error(e);
@@ -185,9 +188,8 @@ export default class GoogleAnalytics extends BasePlugin {
    * @returns {void}
    */
   _sendEvent(event: Object) {
-    const eventProps = {
-      event_category: event.category
-    };
+    const eventProps = {};
+    eventProps['event_category'] = event.category;
     if (event.label) {
       eventProps['event_label'] = event.label
     }
@@ -195,7 +197,7 @@ export default class GoogleAnalytics extends BasePlugin {
       eventProps['value'] = event.value
     }
     this.logger.debug(`${event.action} event sent`, eventProps);
-    gtag('event', event.action, eventProps);
+    window.gtag('event', event.action, eventProps);
   }
 
   /**
