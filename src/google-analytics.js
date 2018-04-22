@@ -1,8 +1,15 @@
 // @flow
-import {BasePlugin, Utils} from 'playkit-js'
+import {BasePlugin, Utils, Error} from 'playkit-js'
 import defaultTracking from './default-tracking'
 
-const LIVE: string = 'Live';
+const WIDGET_LOADED_ACTION: string = 'widget loaded';
+const MEDIA_READY_ACTION: string = 'media ready';
+const PCT_25_ACTION: string = '25 pct watched';
+const PCT_50_ACTION: string = '50 pct watched';
+const PCT_75_ACTION: string = '75 pct watched';
+const PCT_100_ACTION: string = '100 pct watched';
+const NO_SOURCES_ACTION: string = 'no sources provided';
+const ERROR_CATEGORY: string = 'Kaltura Video Error';
 
 /**
  * Your class description.
@@ -10,7 +17,6 @@ const LIVE: string = 'Live';
  */
 export default class GoogleAnalytics extends BasePlugin {
   /**
-   * TODO: Override and define your default configuration for the plugin.
    * The default configuration of the plugin.
    * @type {Object}
    * @static
@@ -20,7 +26,6 @@ export default class GoogleAnalytics extends BasePlugin {
   };
 
   /**
-   * TODO: Define under what conditions the plugin is valid.
    * @static
    * @public
    * @returns {boolean} - Whether the plugin is valid.
@@ -58,7 +63,7 @@ export default class GoogleAnalytics extends BasePlugin {
     this._init();
     this._addBindings();
     this._sendEvent({
-      action: 'widget loaded',
+      action: WIDGET_LOADED_ACTION,
       category: this.config.tracking.category
     });
   }
@@ -70,9 +75,11 @@ export default class GoogleAnalytics extends BasePlugin {
    */
   _init(): void {
     if (this.config.trackingId) {
-      Utils.Dom.loadScriptAsync(`${GoogleAnalytics.GTAG_LIB_URL}?id=${this.config.trackingId}`).then(() => {
-        this.logger.debug('Google gtag library has loaded successfully');
-      });
+      if (!window.google_tag_manager) {
+        Utils.Dom.loadScriptAsync(`${GoogleAnalytics.GTAG_LIB_URL}?id=${this.config.trackingId}`).then(() => {
+          this.logger.debug('Google gtag library has loaded successfully');
+        });
+      }
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () {
         dataLayer.push(arguments);
@@ -108,7 +115,7 @@ export default class GoogleAnalytics extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => {
       this.player.ready().then(() => {
         this._sendEvent({
-          action: 'media ready',
+          action: MEDIA_READY_ACTION,
           category: this.config.tracking.category,
           label: this.config.tracking.label.call(this)
         });
@@ -116,10 +123,10 @@ export default class GoogleAnalytics extends BasePlugin {
     });
     this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, this._sendTimePercentAnalytic.bind(this));
     this.eventManager.listen(this.player, this.player.Event.ERROR, (error) => {
-      if (error.payload.code === KalturaPlayer.core.Error.Code.NO_SOURCE_PROVIDED) {
+      if (error.payload.code === Error.Code.NO_SOURCE_PROVIDED) {
         this._sendEvent({
-          action: 'no sources provided',
-          category: 'Kaltura Video Error'
+          action: NO_SOURCES_ACTION,
+          category: ERROR_CATEGORY
         });
       }
     });
@@ -138,33 +145,33 @@ export default class GoogleAnalytics extends BasePlugin {
         value: this.player.currentTime
       }
     };
-    if (this.player.config.type !== LIVE) {
+    if (this.player.config.type !== this.player.MediaType.LIVE) {
       const percent = this.player.currentTime / this.player.duration;
       if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= .25) {
         this._timePercentEvent.PLAY_REACHED_25 = true;
         this._sendEvent({
-          action: '25 pct watched',
+          action: PCT_25_ACTION,
           ...getPctEventParams()
         });
       }
       if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= .50) {
         this._timePercentEvent.PLAY_REACHED_50 = true;
         this._sendEvent({
-          action: '50 pct watched',
+          action: PCT_50_ACTION,
           ...getPctEventParams()
         });
       }
       if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= .75) {
         this._timePercentEvent.PLAY_REACHED_75 = true;
         this._sendEvent({
-          action: '75 pct watched',
+          action: PCT_75_ACTION,
           ...getPctEventParams()
         });
       }
       if (!this._timePercentEvent.PLAY_REACHED_100 && percent >= 1) {
         this._timePercentEvent.PLAY_REACHED_100 = true;
         this._sendEvent({
-          action: '100 pct watched',
+          action: PCT_100_ACTION,
           ...getPctEventParams()
         });
       }
