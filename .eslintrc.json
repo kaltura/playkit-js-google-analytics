@@ -22,8 +22,7 @@
     "__VERSION__": true,
     "__NAME__": true,
     "dataLayer": true,
-    "gtag": true,
-    "KalturaPlayer": true
+    "gtag": true
   },
   "rules": {
     "mocha-no-only/mocha-no-only": "off",
