@@ -29,7 +29,12 @@ The configuration uses the following structure:
 >### tracking.label
 >##### Type: `function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance) to get the default label for the events.
+>##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the default label for the events.
+##
+>### tracking.value
+>##### Type: `function`
+>##### required: `false`
+>##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the default value (number) for the events.
 ##
 >### tracking.events
 >##### Type: `Object`
@@ -49,12 +54,12 @@ The configuration uses the following structure:
 >### tracking.events[<event_name>].label
 >##### Type: `function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance) to get the label to send once the <event_name> triggered. if no given uses the default label.
+>##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the label to send once the <event_name> triggered. if no given uses the default label.
 ##
 >### tracking.events[<event_name>].value
 >##### Type: `function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance) to get the value to send once the <event_name> triggered.
+>##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the value (number) to send once the <event_name> triggered.
 ##
 >### tracking.events[<event_name>].condition
 >##### Type: `function`
@@ -69,6 +74,9 @@ The configuration uses the following structure:
     category: 'Kaltura Video Events',
     label: function () {
       return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${this.config.entryName}'`
+    },
+    value: function () {
+      return null;
     },
     events: {
       MEDIA_LOADED: {

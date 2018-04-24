@@ -5,6 +5,9 @@ export default {
   label: function () {
     return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${this.config.entryName}'`
   },
+  value: function () {
+    return null;
+  },
   events: {
     MEDIA_LOADED: {
       action: 'media ready'

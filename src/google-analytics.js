@@ -107,12 +107,12 @@ export default class GoogleAnalytics extends BasePlugin {
     Object.entries(this.config.tracking.events).forEach(([eventName, eventParams]) => {
       this.eventManager.listen(this.player, this.player.Event[eventName], (event) => {
         try {
-          if (eventParams && typeof eventParams === 'object' && shouldSentEvent(eventParams.condition, event)) {
+          if (eventParams && typeof eventParams === 'object' && eventParams.action && shouldSentEvent(eventParams.condition, event)) {
             const eventObj = {
               action: eventParams.action,
               category: eventParams.category || this.config.tracking.category,
-              label: typeof eventParams.label === 'function' ? eventParams.label.call(this) : this.config.tracking.label.call(this),
-              value: typeof eventParams.value === 'function' ? eventParams.value.call(this) : undefined
+              label: typeof eventParams.label === 'function' ? eventParams.label.call(this, event) : this.config.tracking.label.call(this, event),
+              value: typeof eventParams.value === 'function' ? eventParams.value.call(this, event) : this.config.tracking.value.call(this, event)
             };
             this._sendEvent(eventObj);
           }
@@ -135,7 +135,7 @@ export default class GoogleAnalytics extends BasePlugin {
     const getPctEventParams = () => {
       return {
         category: this.config.tracking.category,
-        label: this.config.tracking.label.call(this),
+        label: this.config.tracking.label.call(this, event),
         value: this.player.currentTime
       }
     };
@@ -184,7 +184,7 @@ export default class GoogleAnalytics extends BasePlugin {
     if (event.label) {
       eventProps['event_label'] = event.label
     }
-    if (event.value !== undefined && event.value !== null) {
+    if (typeof event.value === 'number') {
       eventProps['value'] = event.value
     }
     this.logger.debug(`${event.action} event sent`, eventProps);
