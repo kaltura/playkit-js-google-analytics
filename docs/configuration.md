@@ -16,6 +16,11 @@ The configuration uses the following structure:
 >##### required: `true`
 >##### Description: The google analytics account id.
 ##
+>### tracking
+>##### Type: `Object`
+>##### required: `false`
+>##### Description: The tracking options.
+##
 >### tracking.category
 >##### Type: `string`
 >##### required: `false`
@@ -29,7 +34,7 @@ The configuration uses the following structure:
 >### tracking.events
 >##### Type: `Object`
 >##### required: `false`
->##### Description: A map of key value pairs which key is an events to listen and value is an object of the parameters to send once the event triggered.
+>##### Description: A map of key value pairs which key is an events to listen and value is an object of the parameters to send once the event triggered. The full events can be found [here](https://github.com/kaltura/playkit-js/blob/master/src/event/event-type.js)
 ##
 >### tracking.events[<event_name>].action
 >##### Type: `string`
