@@ -1,7 +1,7 @@
 <!-- If you are raising a bug playing a stream, you must fill out the following or your issue may not be responded to. For features or improvements, you may delete this. -->
 ##### Prerequisites
-- [ ] Have you checked for duplicate [issues](https://github.com/kaltura/playkit-js-ima/issues): ______
-- [ ] Which Plugin [version](https://github.com/kaltura/playkit-js-ima/releases) are you using: ______
+- [ ] Have you checked for duplicate [issues](https://github.com/kaltura/playkit-js-google-analytics/issues): ______
+- [ ] Which Plugin [version](https://github.com/kaltura/playkit-js-google-analytics/releases) are you using: ______
 - [ ] Can you reproduce the issue with our latest release version: ______
 - [ ] Can you reproduce the issue with the latest code from master: ______
 - [ ] What browser and OS names and versions are you using: ______
