@@ -34,7 +34,7 @@ The configuration uses the following structure:
 >### tracking.events
 >##### Type: `Object`
 >##### required: `false`
->##### Description: A map of key value pairs which key is an events to listen and value is an object of the parameters to send once the event triggered. The full events can be found [here](https://github.com/kaltura/playkit-js/blob/master/src/event/event-type.js)
+>##### Description: A map of key-value pairs which key is an event to listen, and value is an object of the parameters to send once the event triggered.<br>The full events can be found [here](https://github.com/kaltura/playkit-js/blob/master/src/event/event-type.js).
 ##
 >### tracking.events[<event_name>].action
 >##### Type: `string`
@@ -44,12 +44,12 @@ The configuration uses the following structure:
 >### tracking.events[<event_name>].category
 >##### Type: `string`
 >##### required: `false`
->##### Description: The category to send once the <event_name> triggered, if no given uses the default category.
+>##### Description: The category to send once the <event_name> triggered. if no given uses the default category.
 ##
 >### tracking.events[<event_name>].label
 >##### Type: `function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance) to get the label to send once the <event_name> triggered, if no given uses the default label.
+>##### Description: A callback (bound to the plugin instance) to get the label to send once the <event_name> triggered. if no given uses the default label.
 ##
 >### tracking.events[<event_name>].value
 >##### Type: `function`
@@ -59,7 +59,7 @@ The configuration uses the following structure:
 >### tracking.events[<event_name>].condition
 >##### Type: `function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance and gets the event as a parameter), if given, the <event_name> will reported only when the condition is satisfied.
+>##### Description: A callback (bound to the plugin instance and gets the event as a parameter). if given, the <event_name> will reported only when the condition is satisfied.
 ##
 
 #### Default Configuration Values
