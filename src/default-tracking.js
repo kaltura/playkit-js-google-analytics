@@ -1,12 +1,12 @@
 import {Error} from 'playkit-js';
 
 export default {
+  category: 'Kaltura Video Events',
   label: function () {
     return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${this.config.entryName}'`
   },
-  category: 'Kaltura Video Events',
   events: {
-    MEDIA_READY: {
+    MEDIA_LOADED: {
       action: 'media ready'
     },
     FIRST_PLAY: {
