@@ -6,17 +6,42 @@ const targetId = 'player-placeholder_google-analytics.spec';
 
 describe('GoogleAnalyticsPlugin', function () {
   let player;
+  const id = '1_rwbj3j0a';
+  const partnerId = 1068292;
+  const uiConfId = 123456;
+  const entryName = 'some name';
+
   const config = {
+    id,
     sources: {
       progressive: [
         {
           mimetype: "video/mp4",
-          url: "http://www.html5videoplayer.net/videos/toystory.mp4"
+          url: "https://www.w3schools.com/tags/movie.mp4"
         }
       ]
     },
     plugins: {
-      "google-analytics": {}
+      googleAnalytics: {
+        trackingId: 'UA-1234567-89',
+        entryId: id,
+        entryName,
+        uiConfId,
+        partnerId,
+        tracking: {
+          events: {
+            MUTE_CHANGE: {
+              action: 'mute change',
+              value: function () {
+                return this.player.muted;
+              }
+            },
+            PAUSE: {
+              action: 'custom pause'
+            },
+          }
+        }
+      }
     }
   };
 
@@ -33,8 +58,22 @@ describe('GoogleAnalyticsPlugin', function () {
     el.appendChild(player.getView());
   }
 
+  function verifyEventParams(eventParams) {
+    eventParams['event_category'].should.equal("Kaltura Video Events");
+    eventParams['event_label'].should.equal("1068292 | 123456 | 1_rwbj3j0a | 'some name'");
+  }
+
+  function verifyEvent(eventData, eventName) {
+    eventData[1].should.equal(eventName);
+    verifyEventParams(eventData[2]);
+  }
+
   before(function () {
     createPlayerPlaceholder(targetId);
+  });
+
+  beforeEach(function () {
+    setupPlayer(config);
   });
 
   afterEach(function () {
@@ -47,9 +86,9 @@ describe('GoogleAnalyticsPlugin', function () {
     TestUtils.removeElement(targetId);
   });
 
-  it('should play mp4 stream with google-analytics plugin', (done) => {
-    setupPlayer(config);
-    player.addEventListener(player.Event.PLAYING, () => {
+  it('should send first play', (done) => {
+    player.addEventListener(player.Event.FIRST_PLAY, () => {
+      verifyEvent(dataLayer[dataLayer.length - 1], 'first play');
       done();
     });
     player.play();
