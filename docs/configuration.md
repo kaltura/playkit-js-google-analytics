@@ -16,11 +16,6 @@ The configuration uses the following structure:
 >##### required: `true`
 >##### Description: The google analytics account id.
 ##
->### tracking
->##### Type: `Object`
->##### required: `false`
->##### Description: The tracking options.
-##
 >### tracking.category
 >##### Type: `string`
 >##### required: `false`
