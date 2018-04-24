@@ -1,9 +1,14 @@
+import {Error} from 'playkit-js';
+
 export default {
   label: function () {
-    return `partner: ${this.config.partnerId} | ${this.config.uiConfId ? `uiconf: ${this.config.uiConfId} | ` : ''}entry id: ${this.config.entryId} | entry name: '${this.config.entryName}'`
+    return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${this.config.entryName}'`
   },
   category: 'Kaltura Video Events',
   events: {
+    MEDIA_READY: {
+      action: 'media ready'
+    },
     FIRST_PLAY: {
       action: 'first play'
     },
@@ -44,6 +49,16 @@ export default {
       action: 'exit full screen',
       value: function () {
         return 1;
+      }
+    },
+    ERROR: {
+      action: 'no sources provided',
+      category: 'Kaltura Video Error',
+      label: function () {
+        return '';
+      },
+      condition: function (error) {
+        return error.payload.code === Error.Code.NO_SOURCE_PROVIDED;
       }
     }
   }

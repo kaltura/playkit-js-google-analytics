@@ -1,15 +1,12 @@
 // @flow
-import {BasePlugin, Utils, Error} from 'playkit-js'
+import {BasePlugin, Utils} from 'playkit-js'
 import defaultTracking from './default-tracking'
 
 const WIDGET_LOADED_ACTION: string = 'widget loaded';
-const MEDIA_READY_ACTION: string = 'media ready';
 const PCT_25_ACTION: string = '25 pct watched';
 const PCT_50_ACTION: string = '50 pct watched';
 const PCT_75_ACTION: string = '75 pct watched';
 const PCT_100_ACTION: string = '100 pct watched';
-const NO_SOURCES_ACTION: string = 'no sources provided';
-const ERROR_CATEGORY: string = 'Kaltura Video Error';
 
 /**
  * Your class description.
@@ -69,6 +66,15 @@ export default class GoogleAnalytics extends BasePlugin {
   }
 
   /**
+   * _gtag - update the dataLayer for gtag manager
+   * @private
+   * @returns {void}
+   */
+  _gtag() {
+    window.dataLayer.push(arguments);
+  }
+
+  /**
    * _init
    * @private
    * @returns {void}
@@ -81,12 +87,10 @@ export default class GoogleAnalytics extends BasePlugin {
         });
       }
       window.dataLayer = window.dataLayer || [];
-      window.gtag = function () {
-        window.dataLayer.push(arguments);
-      };
       // $FlowFixMe
-      window.gtag('js', new Date());
-      window.gtag('config', this.config.trackingId);
+      this._gtag('js', new Date());
+      // $FlowFixMe
+      this._gtag('config', this.config.trackingId);
     }
   }
 
@@ -96,15 +100,19 @@ export default class GoogleAnalytics extends BasePlugin {
    * @returns {void}
    */
   _addBindings(): void {
+    const shouldSentEvent = (condition, event) => {
+      return typeof condition === 'function' ? condition.call(this, event) : true;
+    };
+
     Object.entries(this.config.tracking.events).forEach(([eventName, eventParams]) => {
-      this.eventManager.listen(this.player, this.player.Event[eventName], () => {
+      this.eventManager.listen(this.player, this.player.Event[eventName], (event) => {
         try {
-          if (eventParams && typeof eventParams === 'object') {
+          if (eventParams && typeof eventParams === 'object' && shouldSentEvent(eventParams.condition, event)) {
             const eventObj = {
               action: eventParams.action,
               category: eventParams.category || this.config.tracking.category,
-              label: eventParams.label && typeof eventParams.label === 'function' ? eventParams.label.call(this) : this.config.tracking.label.call(this),
-              value: eventParams.value && typeof eventParams.value === 'function' ? eventParams.value.call(this) : undefined
+              label: typeof eventParams.label === 'function' ? eventParams.label.call(this) : this.config.tracking.label.call(this),
+              value: typeof eventParams.value === 'function' ? eventParams.value.call(this) : undefined
             };
             this._sendEvent(eventObj);
           }
@@ -115,24 +123,7 @@ export default class GoogleAnalytics extends BasePlugin {
         }
       });
     });
-    this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => {
-      this.player.ready().then(() => {
-        this._sendEvent({
-          action: MEDIA_READY_ACTION,
-          category: this.config.tracking.category,
-          label: this.config.tracking.label.call(this)
-        });
-      });
-    });
     this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, this._sendTimePercentAnalytic.bind(this));
-    this.eventManager.listen(this.player, this.player.Event.ERROR, (error) => {
-      if (error.payload.code === Error.Code.NO_SOURCE_PROVIDED) {
-        this._sendEvent({
-          action: NO_SOURCES_ACTION,
-          category: ERROR_CATEGORY
-        });
-      }
-    });
   }
 
   /**
@@ -197,7 +188,8 @@ export default class GoogleAnalytics extends BasePlugin {
       eventProps['value'] = event.value
     }
     this.logger.debug(`${event.action} event sent`, eventProps);
-    window.gtag('event', event.action, eventProps);
+    // $FlowFixMe
+    this._gtag('event', event.action, eventProps);
   }
 
   /**
