@@ -103,7 +103,7 @@ export default class GoogleAnalytics extends BasePlugin {
    * @returns {?string | ?number} - the returned value
    * @private
    */
-  _getValue(val, event): ?string | ?number {
+  _getValue(val: any, event: Object): any {
     try {
       return typeof val === 'function' ? val.call(this, event) : val;
     } catch (e) {
@@ -121,10 +121,9 @@ export default class GoogleAnalytics extends BasePlugin {
     Object.entries(this.config.tracking.events).forEach(([eventName, eventParams]) => {
       this.eventManager.listen(this.player, this.player.Event[eventName], (event) => {
         const shouldSendEvent = (eventParams) => {
-          return eventParams && typeof eventParams === 'object' && eventParams.action &&
-            (typeof eventParams.condition === 'function' ? eventParams.condition.call(this, event) : true);
+          return eventParams.action && (typeof eventParams.condition === 'function' ? eventParams.condition.call(this, event) : true);
         };
-        if (shouldSendEvent(eventParams)) {
+        if (eventParams && typeof eventParams === 'object' && shouldSendEvent(eventParams)) {
           const customCategory = this._getValue(eventParams.category, event);
           const customLabel = this._getValue(eventParams.label, event);
           const customValue = this._getValue(eventParams.value, event);
