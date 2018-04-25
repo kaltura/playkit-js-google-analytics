@@ -115,7 +115,7 @@ The configuration uses the following structure:
         action: 'error',
         category: 'Kaltura Video Error',
         label: function (error) {
-          return Object.entries(Error.Code).find(([name, code]) => { // eslint-disable-line no-unused-vars
+          return Object.entries(Error.Code).find(([name, code]) => {
             return code === error.payload.code;
           })[0]
         },
