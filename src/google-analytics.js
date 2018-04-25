@@ -65,7 +65,7 @@ export default class GoogleAnalytics extends BasePlugin {
         category: this.config.tracking.category
       });
     } else {
-      this.logger.warn('No Google Analytics tracking ID provided');
+      this.logger.warn('No Google Analytics tracking ID provided. Tracking aborted');
     }
   }
 
