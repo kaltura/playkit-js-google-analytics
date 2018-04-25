@@ -1,9 +1,9 @@
-# PlayKit JS Google Analytics - Google Analytics plugin for the [PlayKit JS Player]
+# PlayKit JS Google Analytics - Google Analytics plugin for the [Kaltura Player JS]
 
 [![Build Status](https://travis-ci.org/kaltura/playkit-js-google-analytics.svg?branch=master)](https://travis-ci.org/kaltura/playkit-js-google-analytics)
 
-PlayKit JS Google Analytics plugin integrates google analytics with the [PlayKit JS Player].
- 
+PlayKit JS Google Analytics plugin integrates google analytics with the [Kaltura Player JS].
+
 PlayKit JS Google Analytics is written in [ECMAScript6], statically analysed using [Flow] and transpiled in ECMAScript5 using [Babel].
 
 [Flow]: https://flow.org/
@@ -13,9 +13,9 @@ PlayKit JS Google Analytics is written in [ECMAScript6], statically analysed usi
 ## Getting Started
 
 ### Prerequisites
-The plugin requires [PlayKit JS Player] to be loaded first.
+The plugin requires [Kaltura Player JS] to be loaded first.
 
-[Playkit JS Player]: https://github.com/kaltura/playkit-js
+[Kaltura Player JS]: https://github.com/kaltura/kaltura-player-js
 
 ### Installing
 
@@ -54,7 +54,7 @@ var config = {
   },
   player: {
    plugins: {
-     googleAnalytics: { 
+     googleAnalytics: {
        trackingId: 'UA-1234567-89'
      }
     ...
@@ -109,7 +109,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/kaltura/playkit-js-google-analytics/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/kaltura/playkit-js-google-analytics/tags).
 
 ## License
 
