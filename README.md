@@ -47,7 +47,7 @@ Finally, add the bundle as a script tag in your page, and initialize the player
 <div id="player-placeholder" style="height:360px; width:640px">
 <script type="text/javascript">
 var config = {
- ...
+  ...
   targetId: 'player-placeholder',
   provider: {
     partnerId: {PARTNER_ID}
