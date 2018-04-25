@@ -22,19 +22,19 @@ The configuration uses the following structure:
 >##### Description: The tracking options.
 ##
 >>### tracking.category
->>##### Type: `string | function`<sup id="a1">[*](#f1)</sup>
+>>##### Type: `string | function`
 >>##### required: `false`
->>##### Description: The default category for the events.<br>Can be a string or a function that returns a string.
+>>##### Description: The default category for the events.<br>Can be a string or a function<sup id="a1">[1](#f1)</sup> that returns a string.
 ##
 >>### tracking.label
 >>##### Type: `string | function`
 >>##### required: `false`
->>##### Description: The default label for the events.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
+>>##### Description: The default label for the events.<br>Can be a string or a function<sup id="a1">[1](#f1)</sup> that returns a string.
 ##
 >>### tracking.value
 >>##### Type: `number | function`
 >>##### required: `false`
->>##### Description: The default value for the events.<br>Can be a number or a function (bound to the plugin instance and gets the event as a parameter) that returns a number.
+>>##### Description: The default value for the events.<br>Can be a number or a function<sup id="a1">[1](#f1)</sup> that returns a number.
 ##
 >>### tracking.events
 >>##### Type: `Object`
@@ -44,27 +44,27 @@ The configuration uses the following structure:
 >>>### tracking.events[<event_name>].action
 >>>##### Type: `string | function`
 >>>##### required: `true`>
->>>##### Description: The action to send once the <event_name> triggered.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
+>>>##### Description: The action to send once the <event_name> triggered.<br>Can be a string or a function<sup id="a1">[1](#f1)</sup> that returns a string.
 ##
 >>>### tracking.events[<event_name>].category
 >>>##### Type: `string | function`
 >>>##### required: `false`
->>>##### Description: The category to send once the <event_name> triggered. if no given uses the default category.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
+>>>##### Description: The category to send once the <event_name> triggered. if no given uses the default category.<br>Can be a string or a function<sup id="a1">[1](#f1)</sup> that returns a string.
 ##
 >>>### tracking.events[<event_name>].label
 >>>##### Type: `string | function`
 >>>##### required: `false`
->>>##### Description: The label to send once the <event_name> triggered. if no given uses the default label.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
+>>>##### Description: The label to send once the <event_name> triggered. if no given uses the default label.<br>Can be a string or a function<sup id="a1">[1](#f1)</sup> that returns a string.
 ##
 >>>### tracking.events[<event_name>].value
->>>##### Type: `function`
+>>>##### Type: `number | function`
 >>>##### required: `false`
->>>##### Description: The value to send once the <event_name> triggered. if no given uses the default value.<br>Can be a number or a function (bound to the plugin instance and gets the event as a parameter) that returns a number.
+>>>##### Description: The value to send once the <event_name> triggered. if no given uses the default value.<br>Can be a number or a function<sup id="a1">[1](#f1)</sup> that returns a number.
 ##
 >>>### tracking.events[<event_name>].condition
 >>>##### Type: `function`
 >>>##### required: `false`
->>>##### Description: A callback (bound to the plugin instance and gets the event as a parameter). if given, the <event_name> will reported only when the condition is satisfied.
+>>>##### Description: A callback<sup id="a1">[1](#f1)</sup>. if given, the <event_name> will reported only when the condition is satisfied.
 ##
 
 #### Default Configuration Values
