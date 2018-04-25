@@ -5,9 +5,6 @@ export default {
   label: function () {
     return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${this.config.entryName}'`
   },
-  value: function () {
-    return null;
-  },
   events: {
     MEDIA_LOADED: {
       action: 'media ready'
@@ -17,15 +14,11 @@ export default {
     },
     PLAY: {
       action: 'play',
-      value: function () {
-        return 1;
-      }
+      value: 1
     },
     PAUSE: {
       action: 'pause',
-      value: function () {
-        return 1;
-      }
+      value: 1
     },
     SEEKED: {
       action: 'seek',
@@ -38,30 +31,26 @@ export default {
     },
     CHANGE_SOURCE_ENDED: {
       action: 'change media',
-      value: function () {
-        return 1;
-      }
+      value: 1
     },
     ENTER_FULLSCREEN: {
       action: 'enter full screen',
-      value: function () {
-        return 1;
-      }
+      value: 1
     },
     EXIT_FULLSCREEN: {
       action: 'exit full screen',
-      value: function () {
-        return 1;
-      }
+      value: 1
     },
     ERROR: {
-      action: 'no sources provided',
+      action: 'error',
       category: 'Kaltura Video Error',
-      label: function () {
-        return '';
+      label: function (error) {
+        return Object.entries(Error.Code).find(([name, code]) => { // eslint-disable-line no-unused-vars
+          return code === error.payload.code;
+        })[0]
       },
       condition: function (error) {
-        return error.payload.code === Error.Code.NO_SOURCE_PROVIDED;
+        return error.payload.severity === 2;
       }
     }
   }

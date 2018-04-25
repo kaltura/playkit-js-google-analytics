@@ -14,7 +14,7 @@ The configuration uses the following structure:
 >### trackingId
 >##### Type: `string`
 >##### required: `true`
->##### Description: The google analytics account id.
+>##### Description: The Google Analytics tracking ID.
 ##
 >### tracking
 >##### Type: `Object`
@@ -22,19 +22,19 @@ The configuration uses the following structure:
 >##### Description: The tracking options.
 ##
 >### tracking.category
->##### Type: `string`
+>##### Type: `string | function`
 >##### required: `false`
->##### Description: The default category for the events.
+>##### Description: The default category for the events.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
 ##
 >### tracking.label
->##### Type: `function`
+>##### Type: `string | function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the default label for the events.
+>##### Description: The default label for the events.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
 ##
 >### tracking.value
->##### Type: `function`
+>##### Type: `number | function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the default value (number) for the events.
+>##### Description: The default value for the events.<br>Can be a number or a function (bound to the plugin instance and gets the event as a parameter) that returns a number.
 ##
 >### tracking.events
 >##### Type: `Object`
@@ -42,24 +42,24 @@ The configuration uses the following structure:
 >##### Description: A map of key-value pairs which key is an event to listen, and value is an object of the parameters to send once the event triggered.<br>The full events can be found [here](https://github.com/kaltura/playkit-js/blob/master/src/event/event-type.js).
 ##
 >### tracking.events[<event_name>].action
->##### Type: `string`
+>##### Type: `string | function`
 >##### required: `true`
->##### Description: The action to send once the <event_name> triggered.
+>##### Description: The action to send once the <event_name> triggered.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
 ##
 >### tracking.events[<event_name>].category
->##### Type: `string`
+>##### Type: `string | function`
 >##### required: `false`
->##### Description: The category to send once the <event_name> triggered. if no given uses the default category.
+>##### Description: The category to send once the <event_name> triggered. if no given uses the default category.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
 ##
 >### tracking.events[<event_name>].label
->##### Type: `function`
+>##### Type: `string | function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the label to send once the <event_name> triggered. if no given uses the default label.
+>##### Description: The label to send once the <event_name> triggered. if no given uses the default label.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
 ##
 >### tracking.events[<event_name>].value
 >##### Type: `function`
 >##### required: `false`
->##### Description: A callback (bound to the plugin instance and gets the event as a parameter) to get the value (number) to send once the <event_name> triggered.
+>##### Description: The value to send once the <event_name> triggered. if no given uses the default value.<br>Can be a number or a function (bound to the plugin instance and gets the event as a parameter) that returns a number.
 ##
 >### tracking.events[<event_name>].condition
 >##### Type: `function`
@@ -75,9 +75,6 @@ The configuration uses the following structure:
     label: function () {
       return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${this.config.entryName}'`
     },
-    value: function () {
-      return null;
-    },
     events: {
       MEDIA_LOADED: {
         action: 'media ready'
@@ -87,15 +84,11 @@ The configuration uses the following structure:
       },
       PLAY: {
         action: 'play',
-        value: function () {
-          return 1;
-        }
+        value: 1
       },
       PAUSE: {
         action: 'pause',
-        value: function () {
-          return 1;
-        }
+        value: 1
       },
       SEEKED: {
         action: 'seek',
@@ -108,30 +101,26 @@ The configuration uses the following structure:
       },
       CHANGE_SOURCE_ENDED: {
         action: 'change media',
-        value: function () {
-          return 1;
-        }
+        value: 1
       },
       ENTER_FULLSCREEN: {
         action: 'enter full screen',
-        value: function () {
-          return 1;
-        }
+        value: 1
       },
       EXIT_FULLSCREEN: {
         action: 'exit full screen',
-        value: function () {
-          return 1;
-        }
+        value: 1
       },
       ERROR: {
-        action: 'no sources provided',
+        action: 'error',
         category: 'Kaltura Video Error',
-        label: function () {
-          return '';
+        label: function (error) {
+          return Object.entries(Error.Code).find(([name, code]) => { // eslint-disable-line no-unused-vars
+            return code === error.payload.code;
+          })[0]
         },
         condition: function (error) {
-          return error.payload.code === Error.Code.NO_SOURCE_PROVIDED;
+          return error.payload.severity === 2;
         }
       }
     }

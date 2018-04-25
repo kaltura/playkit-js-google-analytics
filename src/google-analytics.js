@@ -57,12 +57,16 @@ export default class GoogleAnalytics extends BasePlugin {
    */
   constructor(name: string, player: Player, config: Object) {
     super(name, player, config);
-    this._init();
-    this._addBindings();
-    this._sendEvent({
-      action: WIDGET_LOADED_ACTION,
-      category: this.config.tracking.category
-    });
+    if (this.config.trackingId) {
+      this._init();
+      this._addBindings();
+      this._sendEvent({
+        action: WIDGET_LOADED_ACTION,
+        category: this.config.tracking.category
+      });
+    } else {
+      this.logger.warn('No Google Analytics tracking ID provided');
+    }
   }
 
   /**
@@ -80,17 +84,31 @@ export default class GoogleAnalytics extends BasePlugin {
    * @returns {void}
    */
   _init(): void {
-    if (this.config.trackingId) {
-      if (!window.google_tag_manager) {
-        Utils.Dom.loadScriptAsync(`${GoogleAnalytics.GTAG_LIB_URL}?id=${this.config.trackingId}`).then(() => {
-          this.logger.debug('Google gtag library has loaded successfully');
-        });
-      }
-      window.dataLayer = window.dataLayer || [];
-      // $FlowFixMe
-      this._gtag('js', new Date());
-      // $FlowFixMe
-      this._gtag('config', this.config.trackingId);
+    if (!window.google_tag_manager) {
+      Utils.Dom.loadScriptAsync(`${GoogleAnalytics.GTAG_LIB_URL}?id=${this.config.trackingId}`).then(() => {
+        this.logger.debug('Google gtag library has loaded successfully');
+      });
+    }
+    window.dataLayer = window.dataLayer || [];
+    // $FlowFixMe
+    this._gtag('js', new Date());
+    // $FlowFixMe
+    this._gtag('config', this.config.trackingId);
+  }
+
+  /**
+   * _getValue - returns the value itself or the returned value if it's a function
+   * @param {string | number | function} val - the value to return or calculate
+   * @param {Object} event - passing to the function if exist
+   * @returns {?string | ?number} - the returned value
+   * @private
+   */
+  _getValue(val, event): ?string | ?number {
+    try {
+      return typeof val === 'function' ? val.call(this, event) : val;
+    } catch (e) {
+      this.logger.error(e);
+      return null;
     }
   }
 
@@ -100,26 +118,23 @@ export default class GoogleAnalytics extends BasePlugin {
    * @returns {void}
    */
   _addBindings(): void {
-    const shouldSentEvent = (condition, event) => {
-      return typeof condition === 'function' ? condition.call(this, event) : true;
-    };
-
     Object.entries(this.config.tracking.events).forEach(([eventName, eventParams]) => {
       this.eventManager.listen(this.player, this.player.Event[eventName], (event) => {
-        try {
-          if (eventParams && typeof eventParams === 'object' && eventParams.action && shouldSentEvent(eventParams.condition, event)) {
-            const eventObj = {
-              action: eventParams.action,
-              category: eventParams.category || this.config.tracking.category,
-              label: typeof eventParams.label === 'function' ? eventParams.label.call(this, event) : this.config.tracking.label.call(this, event),
-              value: typeof eventParams.value === 'function' ? eventParams.value.call(this, event) : this.config.tracking.value.call(this, event)
-            };
-            this._sendEvent(eventObj);
-          }
-        }
-        catch (e) {
-          this.logger.error(e);
-          return;
+        const shouldSendEvent = (eventParams) => {
+          return eventParams && typeof eventParams === 'object' && eventParams.action &&
+            (typeof eventParams.condition === 'function' ? eventParams.condition.call(this, event) : true);
+        };
+        if (shouldSendEvent(eventParams)) {
+          const customCategory = this._getValue(eventParams.category, event);
+          const customLabel = this._getValue(eventParams.label, event);
+          const customValue = this._getValue(eventParams.value, event);
+          const eventObj = {
+            action: this._getValue(eventParams.action, event),
+            category: typeof customCategory === 'string' ? customCategory : this._getValue(this.config.tracking.category, event),
+            label: typeof customLabel === 'string' ? customLabel : this._getValue(this.config.tracking.label, event),
+            value: typeof customValue === 'number' ? customValue : this._getValue(this.config.tracking.value, event),
+          };
+          this._sendEvent(eventObj);
         }
       });
     });
@@ -134,8 +149,8 @@ export default class GoogleAnalytics extends BasePlugin {
   _sendTimePercentAnalytic(): void {
     const getPctEventParams = () => {
       return {
-        category: this.config.tracking.category,
-        label: this.config.tracking.label.call(this, event),
+        category: this._getValue(this.config.tracking.category, event),
+        label: this._getValue(this.config.tracking.label, event),
         value: this.player.currentTime
       }
     };
@@ -179,17 +194,19 @@ export default class GoogleAnalytics extends BasePlugin {
    * @returns {void}
    */
   _sendEvent(event: Object) {
-    const eventProps = {};
-    eventProps['event_category'] = event.category;
-    if (event.label) {
-      eventProps['event_label'] = event.label
+    if (event.action) {
+      const eventProps = {};
+      eventProps['event_category'] = event.category;
+      if (event.label) {
+        eventProps['event_label'] = event.label
+      }
+      if (typeof event.value === 'number') {
+        eventProps['value'] = event.value
+      }
+      this.logger.debug(`${event.action} event sent`, eventProps);
+      // $FlowFixMe
+      this._gtag('event', event.action, eventProps);
     }
-    if (typeof event.value === 'number') {
-      eventProps['value'] = event.value
-    }
-    this.logger.debug(`${event.action} event sent`, eventProps);
-    // $FlowFixMe
-    this._gtag('event', event.action, eventProps);
   }
 
   /**
