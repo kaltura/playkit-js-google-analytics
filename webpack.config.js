@@ -1,10 +1,10 @@
 'use strict';
 
-const webpack = require("webpack");
+const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const path = require("path");
+const path = require('path');
 const PROD = (process.env.NODE_ENV === 'production');
-const packageData = require("./package.json");
+const packageData = require('./package.json');
 
 const plugins = [
   new webpack.DefinePlugin({
@@ -23,16 +23,16 @@ if (PROD) {
 }
 
 module.exports = {
-  context: __dirname + "/src",
+  context: __dirname + '/src',
   entry: {
-    "playkit-google-analytics": "index.js"
+    'playkit-google-analytics': 'index.js'
   },
   output: {
-    path: __dirname + "/dist",
+    path: __dirname + '/dist',
     filename: '[name].js',
-    library: ["playkit", "googleAnalytics"],
-    libraryTarget: "umd",
-    devtoolModuleFilenameTemplate: "./google-analytics/[resource-path]"
+    library: ['KalturaPlayer', 'plugins', 'googleAnalytics'],
+    libraryTarget: 'umd',
+    devtoolModuleFilenameTemplate: './google-analytics/[resource-path]'
   },
   devtool: 'source-map',
   plugins: plugins,
@@ -40,7 +40,7 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       use: [{
-        loader: "babel-loader"
+        loader: 'babel-loader'
       }],
       exclude: [
         /node_modules/
@@ -63,20 +63,20 @@ module.exports = {
     }]
   },
   devServer: {
-    contentBase: __dirname + "/src"
+    contentBase: __dirname + '/src'
   },
   resolve: {
     modules: [
-      path.resolve(__dirname, "src"),
-      "node_modules"
+      path.resolve(__dirname, 'src'),
+      'node_modules'
     ]
   },
   externals: {
-    "playkit-js": {
-      commonjs: "playkit-js",
-      commonjs2: "playkit-js",
-      amd: "playkit-js",
-      root: ["playkit", "core"]
+    'playkit-js': {
+      commonjs: 'playkit-js',
+      commonjs2: 'playkit-js',
+      amd: 'playkit-js',
+      root: ['KalturaPlayer', 'core']
     }
   }
 };
