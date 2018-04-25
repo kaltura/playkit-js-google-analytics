@@ -22,9 +22,9 @@ The configuration uses the following structure:
 >##### Description: The tracking options.
 ##
 >>### tracking.category
->>##### Type: `string | function`
+>>##### Type: `string | function`<sup id="a1">[*](#f1)</sup>
 >>##### required: `false`
->>##### Description: The default category for the events.<br>Can be a string or a function (bound to the plugin instance and gets the event as a parameter) that returns a string.
+>>##### Description: The default category for the events.<br>Can be a string or a function that returns a string.
 ##
 >>### tracking.label
 >>##### Type: `string | function`
@@ -127,3 +127,5 @@ The configuration uses the following structure:
   }
 }
 ```
+
+<b id="f1">1</b> bound to the plugin instance and gets the event as a parameter [↩](#a1)
