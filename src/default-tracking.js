@@ -50,7 +50,7 @@ export default {
         })[0]
       },
       condition: function (error) {
-        return error.payload.severity === 2;
+        return error.payload.severity === Error.Severity.CRITICAL;
       }
     }
   }
