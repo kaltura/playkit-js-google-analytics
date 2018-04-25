@@ -71,4 +71,4 @@ The configuration uses the following structure:
 
 The default config can be found [here](../src/default-tracking.js).
 
-<b id="f1"></b> bound to the plugin instance and gets the event as a parameter [↩](#a1)
+><b id="f1"></b> bound to the plugin instance and gets the event as a parameter [↩](#a1)
