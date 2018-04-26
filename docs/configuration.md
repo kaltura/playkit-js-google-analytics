@@ -7,7 +7,25 @@ The configuration uses the following structure:
 ```js
 {
   trackingId: string,
-  tracking: Object
+  tracking: {
+    category: string | function,
+    label: string | function,
+    value: number | function,
+    events: {
+      <EVENT_NAME1>: {
+        action: string | function,
+        category: string | function,
+        label: string | function,
+        value: number | function,
+      },
+      <EVENT_NAME2>: {
+        action: string | function,
+        category: string | function,
+        label: string | function,
+        value: number | function,
+      }
+    }
+  }
 }
 ```
 ##
@@ -73,4 +91,4 @@ The default config can be found [here](../src/default-tracking.js).
 
 
 #
-><b id="f1"></b> bound to the plugin instance and gets the event as a parameter
+><b id="f1"></b>1. bound to the plugin instance and gets the event as a parameter
