@@ -3,10 +3,10 @@ import {BasePlugin, Utils} from 'playkit-js'
 import defaultTracking from './default-tracking'
 
 const WIDGET_LOADED_ACTION: string = 'widget loaded';
-const PCT_25_ACTION: string = '25 pct watched';
-const PCT_50_ACTION: string = '50 pct watched';
-const PCT_75_ACTION: string = '75 pct watched';
-const PCT_100_ACTION: string = '100 pct watched';
+const PCT_25_ACTION: string = '25% watched';
+const PCT_50_ACTION: string = '50% watched';
+const PCT_75_ACTION: string = '75% watched';
+const PCT_100_ACTION: string = '100% watched';
 
 /**
  * Your class description.
@@ -131,7 +131,7 @@ export default class GoogleAnalytics extends BasePlugin {
             action: this._getValue(eventParams.action, event),
             category: typeof customCategory === 'string' ? customCategory : this._getValue(this.config.tracking.category, event),
             label: typeof customLabel === 'string' ? customLabel : this._getValue(this.config.tracking.label, event),
-            value: typeof customValue === 'number' ? customValue : this._getValue(this.config.tracking.value, event),
+            value: typeof customValue === 'number' ? Math.round(customValue) : Math.round(this._getValue(this.config.tracking.value, event)),
           };
           this._sendEvent(eventObj);
         }
@@ -150,7 +150,7 @@ export default class GoogleAnalytics extends BasePlugin {
       return {
         category: this._getValue(this.config.tracking.category, event),
         label: this._getValue(this.config.tracking.label, event),
-        value: this.player.currentTime
+        value: Math.round(this.player.currentTime)
       }
     };
     if (this.player.config.type !== this.player.MediaType.LIVE) {
