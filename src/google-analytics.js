@@ -131,7 +131,7 @@ export default class GoogleAnalytics extends BasePlugin {
             action: this._getValue(eventParams.action, event),
             category: typeof customCategory === 'string' ? customCategory : this._getValue(this.config.tracking.category, event),
             label: typeof customLabel === 'string' ? customLabel : this._getValue(this.config.tracking.label, event),
-            value: typeof customValue === 'number' ? Math.round(customValue) : Math.round(this._getValue(this.config.tracking.value, event)),
+            value: typeof customValue === 'number' ? customValue : this._getValue(this.config.tracking.value, event),
           };
           this._sendEvent(eventObj);
         }
@@ -150,7 +150,7 @@ export default class GoogleAnalytics extends BasePlugin {
       return {
         category: this._getValue(this.config.tracking.category, event),
         label: this._getValue(this.config.tracking.label, event),
-        value: Math.round(this.player.currentTime)
+        value: this.player.currentTime
       }
     };
     if (this.player.config.type !== this.player.MediaType.LIVE) {
@@ -200,7 +200,7 @@ export default class GoogleAnalytics extends BasePlugin {
         eventProps['event_label'] = event.label
       }
       if (typeof event.value === 'number') {
-        eventProps['value'] = event.value
+        eventProps['value'] = Math.round(event.value)
       }
       this.logger.debug(`${event.action} event sent`, eventProps);
       // $FlowFixMe
