@@ -62,7 +62,7 @@ export default class GoogleAnalytics extends BasePlugin {
       this._addBindings();
       this._sendEvent({
         action: WIDGET_LOADED_ACTION,
-        category: this.config.tracking.category
+        category: this._getValue(this.config.tracking.category)
       });
     } else {
       this.logger.warn('No Google Analytics tracking ID provided. Tracking aborted');
