@@ -3,10 +3,10 @@ import {BasePlugin, Utils} from 'playkit-js'
 import defaultTracking from './default-tracking'
 
 const WIDGET_LOADED_ACTION: string = 'widget loaded';
-const PCT_25_ACTION: string = '25 pct watched';
-const PCT_50_ACTION: string = '50 pct watched';
-const PCT_75_ACTION: string = '75 pct watched';
-const PCT_100_ACTION: string = '100 pct watched';
+const PCT_25_ACTION: string = '25% watched';
+const PCT_50_ACTION: string = '50% watched';
+const PCT_75_ACTION: string = '75% watched';
+const PCT_100_ACTION: string = '100% watched';
 
 /**
  * Your class description.
@@ -62,7 +62,7 @@ export default class GoogleAnalytics extends BasePlugin {
       this._addBindings();
       this._sendEvent({
         action: WIDGET_LOADED_ACTION,
-        category: this.config.tracking.category
+        category: this._getValue(this.config.tracking.category)
       });
     } else {
       this.logger.warn('No Google Analytics tracking ID provided. Tracking aborted');
@@ -200,7 +200,7 @@ export default class GoogleAnalytics extends BasePlugin {
         eventProps['event_label'] = event.label
       }
       if (typeof event.value === 'number') {
-        eventProps['value'] = event.value
+        eventProps['value'] = Math.round(event.value)
       }
       this.logger.debug(`${event.action} event sent`, eventProps);
       // $FlowFixMe
