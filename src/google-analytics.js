@@ -153,7 +153,7 @@ export default class GoogleAnalytics extends BasePlugin {
         value: this.player.currentTime
       }
     };
-    if (this.player.config.type !== this.player.MediaType.LIVE) {
+    if (this.player.config.sources.type !== this.player.MediaType.LIVE) {
       const percent = this.player.currentTime / this.player.duration;
       if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= .25) {
         this._timePercentEvent.PLAY_REACHED_25 = true;
