@@ -99,11 +99,11 @@ export default class GoogleAnalytics extends BasePlugin {
   /**
    * _getValue - returns the value itself or the returned value if it's a function
    * @param {string | number | function} val - the value to return or calculate
-   * @param {Object} event - passing to the function if exist
+   * @param {?Object} event - passing to the function if exist
    * @returns {?string | ?number} - the returned value
    * @private
    */
-  _getValue(val: any, event: Object): any {
+  _getValue(val: any, event: ?Object): any {
     try {
       return typeof val === 'function' ? val.call(this, event) : val;
     } catch (e) {
@@ -153,7 +153,7 @@ export default class GoogleAnalytics extends BasePlugin {
         value: this.player.currentTime
       }
     };
-    if (this.player.config.type !== this.player.MediaType.LIVE) {
+    if (this.player.config.sources.type !== this.player.MediaType.LIVE) {
       const percent = this.player.currentTime / this.player.duration;
       if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= .25) {
         this._timePercentEvent.PLAY_REACHED_25 = true;
