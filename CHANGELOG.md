@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.1...v0.1.2) (2018-05-23)
+
+
+### Bug Fixes
+
+* **FEC-8230:** when playing live stream all "% watched" events are triggered ([#7](https://github.com/kaltura/playkit-js-google-analytics/issues/7)) ([7a7df41](https://github.com/kaltura/playkit-js-google-analytics/commit/7a7df41))
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.0...v0.1.1) (2018-05-06)
 
