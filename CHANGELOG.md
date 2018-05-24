@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.2...v0.1.3) (2018-05-24)
+
+
+### Bug Fixes
+
+* **FEC-8253:** percentage Google analytics events are not sent in Firefox ([#8](https://github.com/kaltura/playkit-js-google-analytics/issues/8)) ([ae5409a](https://github.com/kaltura/playkit-js-google-analytics/commit/ae5409a))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.1...v0.1.2) (2018-05-23)
 
