@@ -142,10 +142,11 @@ export default class GoogleAnalytics extends BasePlugin {
 
   /**
    * Send time percent analytic
+   * @param {Object} event - 'timeupdate' event
    * @private
    * @return {void}
    */
-  _sendTimePercentAnalytic(): void {
+  _sendTimePercentAnalytic(event: Object): void {
     const getPctEventParams = () => {
       return {
         category: this._getValue(this.config.tracking.category, event),
