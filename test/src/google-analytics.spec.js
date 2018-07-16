@@ -1,10 +1,10 @@
-import '../../src/index.js'
-import {loadPlayer, FakeEvent, Error} from 'playkit-js'
-import * as TestUtils from 'playkit-js/test/src/utils/test-utils'
+import '../../src/index.js';
+import {loadPlayer, FakeEvent, Error} from 'playkit-js';
+import * as TestUtils from 'playkit-js/test/src/utils/test-utils';
 
 const targetId = 'player-placeholder_google-analytics.spec';
 
-describe('Google Analytics Plugin', function () {
+describe('Google Analytics Plugin', function() {
   let player;
   const id = '1_rwbj3j0a';
   const partnerId = 1068292;
@@ -23,8 +23,8 @@ describe('Google Analytics Plugin', function () {
     sources: {
       progressive: [
         {
-          mimetype: "video/mp4",
-          url: "https://www.w3schools.com/tags/movie.mp4"
+          mimetype: 'video/mp4',
+          url: 'https://www.w3schools.com/tags/movie.mp4'
         }
       ]
     },
@@ -71,29 +71,28 @@ describe('Google Analytics Plugin', function () {
     eventData[1].should.equal(name);
   }
 
-  before(function () {
+  before(function() {
     createPlayerPlaceholder(targetId);
   });
 
-  afterEach(function () {
+  afterEach(function() {
     player.destroy();
     player = null;
     TestUtils.removeVideoElementsFromTestPage();
   });
 
-  after(function () {
+  after(function() {
     TestUtils.removeElement(targetId);
   });
   describe('default events', () => {
-
-    beforeEach(function () {
+    beforeEach(function() {
       config = {
         id,
         sources: {
           progressive: [
             {
-              mimetype: "video/mp4",
-              url: "https://www.w3schools.com/tags/movie.mp4"
+              mimetype: 'video/mp4',
+              url: 'https://www.w3schools.com/tags/movie.mp4'
             }
           ]
         },
@@ -115,7 +114,7 @@ describe('Google Analytics Plugin', function () {
       verifyEventParams(dataLayer[dataLayer.length - 1]);
     });
 
-    it('should send media ready', (done) => {
+    it('should send media ready', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'media ready');
         verifyEventParams(dataLayer[dataLayer.length - 1]);
@@ -124,7 +123,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('should send play & first play', (done) => {
+    it('should send play & first play', done => {
       player.addEventListener(player.Event.FIRST_PLAY, () => {
         verifyEventName(dataLayer[dataLayer.length - 2], 'play');
         verifyEventParams(dataLayer[dataLayer.length - 2]);
@@ -136,7 +135,7 @@ describe('Google Analytics Plugin', function () {
       player.play();
     });
 
-    it('should send pause', (done) => {
+    it('should send pause', done => {
       player.addEventListener(player.Event.FIRST_PLAY, () => {
         player.addEventListener(player.Event.PAUSE, () => {
           verifyEventName(dataLayer[dataLayer.length - 1], 'pause');
@@ -149,7 +148,7 @@ describe('Google Analytics Plugin', function () {
       player.play();
     });
 
-    it('should send play', (done) => {
+    it('should send play', done => {
       player.addEventListener(player.Event.FIRST_PLAY, () => {
         player.addEventListener(player.Event.PAUSE, () => {
           player.addEventListener(player.Event.PLAY, () => {
@@ -165,7 +164,7 @@ describe('Google Analytics Plugin', function () {
       player.play();
     });
 
-    it('should send seek', (done) => {
+    it('should send seek', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
           verifyEventName(dataLayer[dataLayer.length - 1], 'seek');
@@ -178,7 +177,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('should send 25% watched', (done) => {
+    it('should send 25% watched', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
           verifyEventName(dataLayer[dataLayer.length - 2], '25% watched');
@@ -191,7 +190,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('should send 50% watched', (done) => {
+    it('should send 50% watched', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
           verifyEventName(dataLayer[dataLayer.length - 2], '50% watched');
@@ -204,7 +203,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('should send 75% watched', (done) => {
+    it('should send 75% watched', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
           verifyEventName(dataLayer[dataLayer.length - 2], '75% watched');
@@ -217,7 +216,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('should send 100% watched & ended', (done) => {
+    it('should send 100% watched & ended', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
           player.addEventListener(player.Event.ENDED, () => {
@@ -235,7 +234,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('should send enter full screen', (done) => {
+    it('should send enter full screen', done => {
       player.addEventListener(player.Event.ENTER_FULLSCREEN, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'enter full screen');
         verifyEventParams(dataLayer[dataLayer.length - 1]);
@@ -245,7 +244,7 @@ describe('Google Analytics Plugin', function () {
       player.notifyEnterFullscreen();
     });
 
-    it('should send exit full screen', (done) => {
+    it('should send exit full screen', done => {
       player.addEventListener(player.Event.ENTER_FULLSCREEN, () => {
         player.addEventListener(player.Event.EXIT_FULLSCREEN, () => {
           verifyEventName(dataLayer[dataLayer.length - 1], 'exit full screen');
@@ -258,7 +257,7 @@ describe('Google Analytics Plugin', function () {
       player.notifyEnterFullscreen();
     });
 
-    it('should send change media', (done) => {
+    it('should send change media', done => {
       player.addEventListener(player.Event.CHANGE_SOURCE_ENDED, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'change media');
         verifyEventParams(dataLayer[dataLayer.length - 1], {label: `${CMpartnerId} | ${CMuiConfId} | ${CMid} | '${CMentryName}'`});
@@ -268,7 +267,7 @@ describe('Google Analytics Plugin', function () {
       player.configure(CMconfig);
     });
 
-    it('should send critical error', (done) => {
+    it('should send critical error', done => {
       player.addEventListener(player.Event.ERROR, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'error');
         verifyEventParams(dataLayer[dataLayer.length - 1], {
@@ -280,7 +279,7 @@ describe('Google Analytics Plugin', function () {
       player.dispatchEvent(new FakeEvent('error', new Error(Error.Severity.CRITICAL, Error.Category.PLAYER, Error.Code.NO_SOURCE_PROVIDED)));
     });
 
-    it('should not send non critical error', (done) => {
+    it('should not send non critical error', done => {
       player.addEventListener(player.Event.ERROR, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'widget loaded');
         done();
@@ -290,14 +289,14 @@ describe('Google Analytics Plugin', function () {
   });
 
   describe('configuration', () => {
-    beforeEach(function () {
+    beforeEach(function() {
       config = {
         id,
         sources: {
           progressive: [
             {
-              mimetype: "video/mp4",
-              url: "https://www.w3schools.com/tags/movie.mp4"
+              mimetype: 'video/mp4',
+              url: 'https://www.w3schools.com/tags/movie.mp4'
             }
           ]
         },
@@ -330,7 +329,7 @@ describe('Google Analytics Plugin', function () {
 
     it('override default category - function', () => {
       config.plugins.googleAnalytics.tracking = {
-        category: function (event = {type: 'custom'}) {
+        category: function(event = {type: 'custom'}) {
           return `${event.type} ${this.config.uiConfId}`;
         }
       };
@@ -338,7 +337,7 @@ describe('Google Analytics Plugin', function () {
       verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom 123456'});
     });
 
-    it('override default label - string', (done) => {
+    it('override default label - string', done => {
       config.plugins.googleAnalytics.tracking = {
         label: 'custom string label'
       };
@@ -350,9 +349,9 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('override default label - function', (done) => {
+    it('override default label - function', done => {
       config.plugins.googleAnalytics.tracking = {
-        label: function (event) {
+        label: function(event) {
           return `${event.type} ${this.config.uiConfId}`;
         }
       };
@@ -364,7 +363,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('override default value - number (round down)', (done) => {
+    it('override default value - number (round down)', done => {
       config.plugins.googleAnalytics.tracking = {
         value: 10.1
       };
@@ -376,9 +375,9 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('override default value - function (round up)', (done) => {
+    it('override default value - function (round up)', done => {
       config.plugins.googleAnalytics.tracking = {
-        value: function (event) {
+        value: function(event) {
           return event.type.length + this.name.length + 0.9;
         }
       };
@@ -390,7 +389,7 @@ describe('Google Analytics Plugin', function () {
       player.load();
     });
 
-    it('custom event - strings', (done) => {
+    it('custom event - strings', done => {
       config.plugins.googleAnalytics.tracking = {
         events: {
           MUTE_CHANGE: {
@@ -411,20 +410,20 @@ describe('Google Analytics Plugin', function () {
       player.muted = true;
     });
 
-    it('custom event - functions', (done) => {
+    it('custom event - functions', done => {
       config.plugins.googleAnalytics.tracking = {
         events: {
           MUTE_CHANGE: {
-            action: function (event) {
+            action: function(event) {
               return `mute ${event.type.length + this.name.length}`;
             },
-            category: function (event) {
+            category: function(event) {
               return `custom category ${event.type.length + this.name.length}`;
             },
-            label: function (event) {
+            label: function(event) {
               return `custom label ${event.type.length + this.name.length}`;
             },
-            value: function (event) {
+            value: function(event) {
               return event.type.length + this.name.length;
             }
           }
@@ -440,7 +439,7 @@ describe('Google Analytics Plugin', function () {
       player.muted = true;
     });
 
-    it('override event', (done) => {
+    it('override event', done => {
       config.plugins.googleAnalytics.tracking = {
         events: {
           MEDIA_LOADED: {

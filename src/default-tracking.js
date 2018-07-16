@@ -2,8 +2,10 @@ import {Error} from 'playkit-js';
 
 export default {
   category: 'Kaltura Video Events',
-  label: function () {
-    return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${this.config.entryName}'`
+  label: function() {
+    return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${
+      this.config.entryName
+    }'`;
   },
   events: {
     MEDIA_LOADED: {
@@ -22,7 +24,7 @@ export default {
     },
     SEEKED: {
       action: 'seek',
-      value: function () {
+      value: function() {
         return this.player.currentTime;
       }
     },
@@ -44,14 +46,15 @@ export default {
     ERROR: {
       action: 'error',
       category: 'Kaltura Video Error',
-      label: function (error) {
-        return Object.entries(Error.Code).find(([name, code]) => { // eslint-disable-line no-unused-vars
+      label: function(error) {
+        // eslint-disable-next-line no-unused-vars
+        return Object.entries(Error.Code).find(([name, code]) => {
           return code === error.payload.code;
-        })[0]
+        })[0];
       },
-      condition: function (error) {
+      condition: function(error) {
         return error.payload.severity === Error.Severity.CRITICAL;
       }
     }
   }
-}
+};

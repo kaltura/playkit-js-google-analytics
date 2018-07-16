@@ -1,6 +1,6 @@
 // @flow
-import {BasePlugin, Utils} from 'playkit-js'
-import defaultTracking from './default-tracking'
+import {BasePlugin, Utils} from 'playkit-js';
+import defaultTracking from './default-tracking';
 
 const WIDGET_LOADED_ACTION: string = 'widget loaded';
 const PCT_25_ACTION: string = '25% watched';
@@ -36,13 +36,13 @@ export default class GoogleAnalytics extends BasePlugin {
    * @type {string}
    * @static
    */
-  static GTAG_LIB_URL: string = "//www.googletagmanager.com/gtag/js";
+  static GTAG_LIB_URL: string = '//www.googletagmanager.com/gtag/js';
 
   /**
    * Indicate whether time percent event already sent
    * @private
    */
-  _timePercentEvent: { [event: string]: boolean } = {
+  _timePercentEvent: {[event: string]: boolean} = {
     PLAY_REACHED_25: false,
     PLAY_REACHED_50: false,
     PLAY_REACHED_75: false,
@@ -119,8 +119,8 @@ export default class GoogleAnalytics extends BasePlugin {
    */
   _addBindings(): void {
     Object.entries(this.config.tracking.events).forEach(([eventName, eventParams]) => {
-      this.eventManager.listen(this.player, this.player.Event[eventName], (event) => {
-        const shouldSendEvent = (eventParams) => {
+      this.eventManager.listen(this.player, this.player.Event[eventName], event => {
+        const shouldSendEvent = eventParams => {
           return eventParams.action && (typeof eventParams.condition === 'function' ? eventParams.condition.call(this, event) : true);
         };
         if (eventParams && typeof eventParams === 'object' && shouldSendEvent(eventParams)) {
@@ -131,7 +131,7 @@ export default class GoogleAnalytics extends BasePlugin {
             action: this._getValue(eventParams.action, event),
             category: typeof customCategory === 'string' ? customCategory : this._getValue(this.config.tracking.category, event),
             label: typeof customLabel === 'string' ? customLabel : this._getValue(this.config.tracking.label, event),
-            value: typeof customValue === 'number' ? customValue : this._getValue(this.config.tracking.value, event),
+            value: typeof customValue === 'number' ? customValue : this._getValue(this.config.tracking.value, event)
           };
           this._sendEvent(eventObj);
         }
@@ -152,25 +152,25 @@ export default class GoogleAnalytics extends BasePlugin {
         category: this._getValue(this.config.tracking.category, event),
         label: this._getValue(this.config.tracking.label, event),
         value: this.player.currentTime
-      }
+      };
     };
     if (this.player.config.sources.type !== this.player.MediaType.LIVE) {
       const percent = this.player.currentTime / this.player.duration;
-      if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= .25) {
+      if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
         this._timePercentEvent.PLAY_REACHED_25 = true;
         this._sendEvent({
           action: PCT_25_ACTION,
           ...getPctEventParams()
         });
       }
-      if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= .50) {
+      if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
         this._timePercentEvent.PLAY_REACHED_50 = true;
         this._sendEvent({
           action: PCT_50_ACTION,
           ...getPctEventParams()
         });
       }
-      if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= .75) {
+      if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
         this._timePercentEvent.PLAY_REACHED_75 = true;
         this._sendEvent({
           action: PCT_75_ACTION,
@@ -198,10 +198,10 @@ export default class GoogleAnalytics extends BasePlugin {
       const eventProps = {};
       eventProps['event_category'] = event.category;
       if (event.label) {
-        eventProps['event_label'] = event.label
+        eventProps['event_label'] = event.label;
       }
       if (typeof event.value === 'number') {
-        eventProps['value'] = Math.round(event.value)
+        eventProps['value'] = Math.round(event.value);
       }
       this.logger.debug(`${event.action} event sent`, eventProps);
       // $FlowFixMe
