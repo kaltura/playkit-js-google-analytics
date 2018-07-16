@@ -13,7 +13,8 @@
     "should": true,
     "sinon": true,
     "__VERSION__": true,
-    "__NAME__": true
+    "__NAME__": true,
+    "dataLayer": true
   },
   "rules": {
     "prettier/prettier": "error",
