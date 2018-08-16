@@ -156,21 +156,21 @@ export default class GoogleAnalytics extends BasePlugin {
     };
     if (this.player.config.sources.type !== this.player.MediaType.LIVE) {
       const percent = this.player.currentTime / this.player.duration;
-      if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
+      if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25 && percent < 0.5) {
         this._timePercentEvent.PLAY_REACHED_25 = true;
         this._sendEvent({
           action: PCT_25_ACTION,
           ...getPctEventParams()
         });
       }
-      if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
+      if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5 && percent < 0.75) {
         this._timePercentEvent.PLAY_REACHED_50 = true;
         this._sendEvent({
           action: PCT_50_ACTION,
           ...getPctEventParams()
         });
       }
-      if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
+      if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75 && percent < 1) {
         this._timePercentEvent.PLAY_REACHED_75 = true;
         this._sendEvent({
           action: PCT_75_ACTION,
