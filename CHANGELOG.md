@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.5"></a>
+## [0.1.5](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.3...v0.1.5) (2019-01-30)
+
+
+### Bug Fixes
+
+* **FEC-8605:** change media event is triggered on first entry load ([#13](https://github.com/kaltura/playkit-js-google-analytics/issues/13)) ([b1ab338](https://github.com/kaltura/playkit-js-google-analytics/commit/b1ab338))
+
+
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.3...v0.1.4) (2019-01-30)
 
