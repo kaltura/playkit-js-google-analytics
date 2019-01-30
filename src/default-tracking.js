@@ -33,7 +33,10 @@ export default {
     },
     CHANGE_SOURCE_ENDED: {
       action: 'change media',
-      value: 1
+      value: 1,
+      condition: function() {
+        return !this._firstEntry;
+      }
     },
     ENTER_FULLSCREEN: {
       action: 'enter full screen',

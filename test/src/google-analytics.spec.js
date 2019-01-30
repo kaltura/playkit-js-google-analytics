@@ -257,6 +257,22 @@ describe('Google Analytics Plugin', function() {
       player.notifyEnterFullscreen();
     });
 
+    it('should not send change media', done => {
+      player.addEventListener(player.Event.CHANGE_SOURCE_ENDED, () => {
+        done('sent changed media');
+      });
+      player.addEventListener(player.Event.MEDIA_LOADED, () => {
+        player.addEventListener(player.Event.SEEKED, () => {
+          player.addEventListener(player.Event.ENDED, () => {
+            done();
+          });
+          player.play();
+        });
+        player.currentTime = 12;
+      });
+      player.load();
+    });
+
     it('should send change media', done => {
       player.addEventListener(player.Event.CHANGE_SOURCE_ENDED, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'change media');
@@ -264,6 +280,7 @@ describe('Google Analytics Plugin', function() {
         verifyEventValue(dataLayer[dataLayer.length - 1], 1);
         done();
       });
+      player.configure(CMconfig);
       player.configure(CMconfig);
     });
 
