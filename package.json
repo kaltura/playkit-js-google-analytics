@@ -1,6 +1,6 @@
 {
   "name": "@playkit-js/playkit-js-google-analytics",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/playkit-google-analytics.js",
   "scripts": {
     "clean": "rm -rf ./dist",
