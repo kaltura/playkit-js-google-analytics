@@ -67,6 +67,10 @@ describe('Google Analytics Plugin', function() {
     }
   }
 
+  function verifyEventCondition(eventData, value) {
+    eventData[2].condition().should.equal(value);
+  }
+
   function verifyEventName(eventData, name) {
     eventData[1].should.equal(name);
   }
@@ -257,11 +261,23 @@ describe('Google Analytics Plugin', function() {
       player.notifyEnterFullscreen();
     });
 
+    it('should not send change media', done => {
+      player.addEventListener(player.Event.CHANGE_SOURCE_ENDED, () => {
+        verifyEventName(dataLayer[dataLayer.length - 1], 'change media');
+        verifyEventParams(dataLayer[dataLayer.length - 1], {label: `${CMpartnerId} | ${CMuiConfId} | ${CMid} | '${CMentryName}'`});
+        verifyEventValue(dataLayer[dataLayer.length - 1], 1);
+        verifyEventCondition(dataLayer[dataLayer.length - 1], false);
+        done();
+      });
+      player.configure(CMconfig);
+    });
+
     it('should send change media', done => {
       player.addEventListener(player.Event.CHANGE_SOURCE_ENDED, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'change media');
         verifyEventParams(dataLayer[dataLayer.length - 1], {label: `${CMpartnerId} | ${CMuiConfId} | ${CMid} | '${CMentryName}'`});
         verifyEventValue(dataLayer[dataLayer.length - 1], 1);
+        verifyEventCondition(dataLayer[dataLayer.length - 1], true);
         done();
       });
       player.configure(CMconfig);

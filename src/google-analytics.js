@@ -50,6 +50,12 @@ export default class GoogleAnalytics extends BasePlugin {
   };
 
   /**
+   * Indicate whether its the first entry that is played
+   * @private
+   */
+  _firstEntry: boolean = true;
+
+  /**
    * @constructor
    * @param {string} name - The plugin name.
    * @param {Player} player - The player instance.
@@ -138,6 +144,7 @@ export default class GoogleAnalytics extends BasePlugin {
       });
     });
     this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, this._sendTimePercentAnalytic.bind(this));
+    this.eventManager.listenOnce(this.player, this.player.Event.CHANGE_SOURCE_ENDED, () => (this._firstEntry = false));
   }
 
   /**
