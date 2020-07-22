@@ -1,5 +1,5 @@
 // @flow
-import {BasePlugin, Utils} from 'playkit-js';
+import {BasePlugin, Utils} from '@playkit-js/playkit-js';
 import defaultTracking from './default-tracking';
 
 const WIDGET_LOADED_ACTION: string = 'widget loaded';
