@@ -126,7 +126,7 @@ export default class GoogleAnalytics extends BasePlugin {
   _addBindings(): void {
     Object.entries(this.config.tracking.events).forEach(([eventName, eventParams]) => {
       this.eventManager.listen(this.player, this.player.Event[eventName], event => {
-        const shouldSendEvent = eventParams => {
+        const shouldSendEvent = (eventParams: Object) => {
           return eventParams.action && (typeof eventParams.condition === 'function' ? eventParams.condition.call(this, event) : true);
         };
         if (eventParams && typeof eventParams === 'object' && shouldSendEvent(eventParams)) {

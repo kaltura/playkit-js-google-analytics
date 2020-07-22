@@ -4,7 +4,7 @@ import * as TestUtils from 'playkit-js/test/src/utils/test-utils';
 
 const targetId = 'player-placeholder_google-analytics.spec';
 
-describe('Google Analytics Plugin', function() {
+describe('Google Analytics Plugin', function () {
   let player;
   const id = '1_rwbj3j0a';
   const partnerId = 1068292;
@@ -71,21 +71,21 @@ describe('Google Analytics Plugin', function() {
     eventData[1].should.equal(name);
   }
 
-  before(function() {
+  before(function () {
     createPlayerPlaceholder(targetId);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     player.destroy();
     player = null;
     TestUtils.removeVideoElementsFromTestPage();
   });
 
-  after(function() {
+  after(function () {
     TestUtils.removeElement(targetId);
   });
   describe('default events', () => {
-    beforeEach(function() {
+    beforeEach(function () {
       config = {
         id,
         sources: {
@@ -306,7 +306,7 @@ describe('Google Analytics Plugin', function() {
   });
 
   describe('configuration', () => {
-    beforeEach(function() {
+    beforeEach(function () {
       config = {
         id,
         sources: {
@@ -346,7 +346,7 @@ describe('Google Analytics Plugin', function() {
 
     it('override default category - function', () => {
       config.plugins.googleAnalytics.tracking = {
-        category: function(event = {type: 'custom'}) {
+        category: function (event = {type: 'custom'}) {
           return `${event.type} ${this.config.uiConfId}`;
         }
       };
@@ -368,7 +368,7 @@ describe('Google Analytics Plugin', function() {
 
     it('override default label - function', done => {
       config.plugins.googleAnalytics.tracking = {
-        label: function(event) {
+        label: function (event) {
           return `${event.type} ${this.config.uiConfId}`;
         }
       };
@@ -394,7 +394,7 @@ describe('Google Analytics Plugin', function() {
 
     it('override default value - function (round up)', done => {
       config.plugins.googleAnalytics.tracking = {
-        value: function(event) {
+        value: function (event) {
           return event.type.length + this.name.length + 0.9;
         }
       };
@@ -431,16 +431,16 @@ describe('Google Analytics Plugin', function() {
       config.plugins.googleAnalytics.tracking = {
         events: {
           MUTE_CHANGE: {
-            action: function(event) {
+            action: function (event) {
               return `mute ${event.type.length + this.name.length}`;
             },
-            category: function(event) {
+            category: function (event) {
               return `custom category ${event.type.length + this.name.length}`;
             },
-            label: function(event) {
+            label: function (event) {
               return `custom label ${event.type.length + this.name.length}`;
             },
-            value: function(event) {
+            value: function (event) {
               return event.type.length + this.name.length;
             }
           }

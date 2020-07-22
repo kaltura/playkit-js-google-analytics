@@ -14,7 +14,9 @@
     "sinon": true,
     "__VERSION__": true,
     "__NAME__": true,
-    "dataLayer": true
+    "dataLayer": true,
+    "process": true,
+    "__dirname": true
   },
   "rules": {
     "prettier/prettier": "error",

@@ -2,7 +2,7 @@ import {Error} from 'playkit-js';
 
 export default {
   category: 'Kaltura Video Events',
-  label: function() {
+  label: function () {
     return `${this.config.partnerId} | ${this.config.uiConfId ? `${this.config.uiConfId} | ` : ''}${this.config.entryId} | '${
       this.config.entryName
     }'`;
@@ -24,7 +24,7 @@ export default {
     },
     SEEKED: {
       action: 'seek',
-      value: function() {
+      value: function () {
         return this.player.currentTime;
       }
     },
@@ -34,7 +34,7 @@ export default {
     CHANGE_SOURCE_ENDED: {
       action: 'change media',
       value: 1,
-      condition: function() {
+      condition: function () {
         return !this._firstEntry;
       }
     },
@@ -49,13 +49,13 @@ export default {
     ERROR: {
       action: 'error',
       category: 'Kaltura Video Error',
-      label: function(error) {
+      label: function (error) {
         // eslint-disable-next-line no-unused-vars
         return Object.entries(Error.Code).find(([name, code]) => {
           return code === error.payload.code;
         })[0];
       },
-      condition: function(error) {
+      condition: function (error) {
         return error.payload.severity === Error.Severity.CRITICAL;
       }
     }
