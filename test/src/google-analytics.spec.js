@@ -1,6 +1,6 @@
 import '../../src/index.js';
 import {loadPlayer, FakeEvent, Error} from '@playkit-js/playkit-js';
-import * as TestUtils from 'playkit-js/test/src/utils/test-utils';
+import * as TestUtils from './utils/test-utils';
 
 const targetId = 'player-placeholder_google-analytics.spec';
 
