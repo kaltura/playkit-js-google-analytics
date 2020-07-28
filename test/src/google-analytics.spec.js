@@ -235,6 +235,7 @@ describe('Google Analytics Plugin', function () {
     });
 
     it('should send enter full screen', done => {
+      sinon.stub(player, 'isFullscreen').callsFake(() => true);
       player.addEventListener(player.Event.ENTER_FULLSCREEN, () => {
         verifyEventName(dataLayer[dataLayer.length - 1], 'enter full screen');
         verifyEventParams(dataLayer[dataLayer.length - 1]);
@@ -245,7 +246,10 @@ describe('Google Analytics Plugin', function () {
     });
 
     it('should send exit full screen', done => {
+      let isFullscreen = true;
+      sinon.stub(player, 'isFullscreen').callsFake(() => isFullscreen);
       player.addEventListener(player.Event.ENTER_FULLSCREEN, () => {
+        isFullscreen = false;
         player.addEventListener(player.Event.EXIT_FULLSCREEN, () => {
           verifyEventName(dataLayer[dataLayer.length - 1], 'exit full screen');
           verifyEventParams(dataLayer[dataLayer.length - 1]);
@@ -280,7 +284,6 @@ describe('Google Analytics Plugin', function () {
         verifyEventValue(dataLayer[dataLayer.length - 1], 1);
         done();
       });
-      player.configure(CMconfig);
       player.configure(CMconfig);
     });
 
