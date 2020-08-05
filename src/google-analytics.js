@@ -1,7 +1,8 @@
 // @flow
-import {BasePlugin, Utils} from '@playkit-js/playkit-js';
+import {core, BasePlugin} from 'kaltura-player-js';
 import defaultTracking from './default-tracking';
 
+const {Utils} = core;
 const WIDGET_LOADED_ACTION: string = 'widget loaded';
 const PCT_25_ACTION: string = '25% watched';
 const PCT_50_ACTION: string = '50% watched';

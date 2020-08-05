@@ -1,4 +1,5 @@
-import {Error} from '@playkit-js/playkit-js';
+import {core} from 'kaltura-player-js';
+const {Error} = core;
 
 export default {
   category: 'Kaltura Video Events',

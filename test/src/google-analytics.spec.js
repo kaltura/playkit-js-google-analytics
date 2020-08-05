@@ -1,6 +1,7 @@
 import '../../src/index.js';
-import {loadPlayer, FakeEvent, Error} from '@playkit-js/playkit-js';
+import {core, setup} from 'kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
+const {FakeEvent, Error} = core;
 
 const targetId = 'player-placeholder_google-analytics.spec';
 
@@ -47,7 +48,7 @@ describe('Google Analytics Plugin', function () {
   }
 
   function setupPlayer(config) {
-    player = loadPlayer(config);
+    player = setup(config);
     const el = document.getElementById(targetId);
     el.appendChild(player.getView());
   }
@@ -87,6 +88,8 @@ describe('Google Analytics Plugin', function () {
   describe('default events', () => {
     beforeEach(function () {
       config = {
+        targetId,
+        provider: {},
         id,
         sources: {
           progressive: [
@@ -116,21 +119,29 @@ describe('Google Analytics Plugin', function () {
 
     it('should send media ready', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'media ready');
-        verifyEventParams(dataLayer[dataLayer.length - 1]);
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'media ready');
+          verifyEventParams(dataLayer[dataLayer.length - 1]);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.load();
     });
 
     it('should send play & first play', done => {
       player.addEventListener(player.Event.FIRST_PLAY, () => {
-        verifyEventName(dataLayer[dataLayer.length - 2], 'play');
-        verifyEventParams(dataLayer[dataLayer.length - 2]);
-        verifyEventValue(dataLayer[dataLayer.length - 2], 1);
-        verifyEventName(dataLayer[dataLayer.length - 1], 'first play');
-        verifyEventParams(dataLayer[dataLayer.length - 1]);
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 2], 'play');
+          verifyEventParams(dataLayer[dataLayer.length - 2]);
+          verifyEventValue(dataLayer[dataLayer.length - 2], 1);
+          verifyEventName(dataLayer[dataLayer.length - 1], 'first play');
+          verifyEventParams(dataLayer[dataLayer.length - 1]);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.play();
     });
@@ -138,10 +149,14 @@ describe('Google Analytics Plugin', function () {
     it('should send pause', done => {
       player.addEventListener(player.Event.FIRST_PLAY, () => {
         player.addEventListener(player.Event.PAUSE, () => {
-          verifyEventName(dataLayer[dataLayer.length - 1], 'pause');
-          verifyEventParams(dataLayer[dataLayer.length - 1]);
-          verifyEventValue(dataLayer[dataLayer.length - 1], 1);
-          done();
+          try {
+            verifyEventName(dataLayer[dataLayer.length - 1], 'pause');
+            verifyEventParams(dataLayer[dataLayer.length - 1]);
+            verifyEventValue(dataLayer[dataLayer.length - 1], 1);
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
         player.pause();
       });
@@ -152,10 +167,14 @@ describe('Google Analytics Plugin', function () {
       player.addEventListener(player.Event.FIRST_PLAY, () => {
         player.addEventListener(player.Event.PAUSE, () => {
           player.addEventListener(player.Event.PLAY, () => {
-            verifyEventName(dataLayer[dataLayer.length - 1], 'play');
-            verifyEventParams(dataLayer[dataLayer.length - 1]);
-            verifyEventValue(dataLayer[dataLayer.length - 1], 1);
-            done();
+            try {
+              verifyEventName(dataLayer[dataLayer.length - 1], 'play');
+              verifyEventParams(dataLayer[dataLayer.length - 1]);
+              verifyEventValue(dataLayer[dataLayer.length - 1], 1);
+              done();
+            } catch (e) {
+              done(e);
+            }
           });
           player.play();
         });
@@ -167,10 +186,14 @@ describe('Google Analytics Plugin', function () {
     it('should send seek', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
-          verifyEventName(dataLayer[dataLayer.length - 1], 'seek');
-          verifyEventParams(dataLayer[dataLayer.length - 1]);
-          verifyEventValue(dataLayer[dataLayer.length - 1], 2);
-          done();
+          try {
+            verifyEventName(dataLayer[dataLayer.length - 1], 'seek');
+            verifyEventParams(dataLayer[dataLayer.length - 1]);
+            verifyEventValue(dataLayer[dataLayer.length - 1], 2);
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
         player.currentTime = 2;
       });
@@ -180,10 +203,14 @@ describe('Google Analytics Plugin', function () {
     it('should send 25% watched', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
-          verifyEventName(dataLayer[dataLayer.length - 2], '25% watched');
-          verifyEventParams(dataLayer[dataLayer.length - 2]);
-          verifyEventValue(dataLayer[dataLayer.length - 1], 5);
-          done();
+          try {
+            verifyEventName(dataLayer[dataLayer.length - 2], '25% watched');
+            verifyEventParams(dataLayer[dataLayer.length - 2]);
+            verifyEventValue(dataLayer[dataLayer.length - 1], 5);
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
         player.currentTime = 5;
       });
@@ -193,10 +220,14 @@ describe('Google Analytics Plugin', function () {
     it('should send 50% watched', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
-          verifyEventName(dataLayer[dataLayer.length - 2], '50% watched');
-          verifyEventParams(dataLayer[dataLayer.length - 2]);
-          verifyEventValue(dataLayer[dataLayer.length - 1], 7);
-          done();
+          try {
+            verifyEventName(dataLayer[dataLayer.length - 2], '50% watched');
+            verifyEventParams(dataLayer[dataLayer.length - 2]);
+            verifyEventValue(dataLayer[dataLayer.length - 1], 7);
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
         player.currentTime = 7;
       });
@@ -206,10 +237,14 @@ describe('Google Analytics Plugin', function () {
     it('should send 75% watched', done => {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
-          verifyEventName(dataLayer[dataLayer.length - 2], '75% watched');
-          verifyEventParams(dataLayer[dataLayer.length - 2]);
-          verifyEventValue(dataLayer[dataLayer.length - 1], 10);
-          done();
+          try {
+            verifyEventName(dataLayer[dataLayer.length - 2], '75% watched');
+            verifyEventParams(dataLayer[dataLayer.length - 2]);
+            verifyEventValue(dataLayer[dataLayer.length - 1], 10);
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
         player.currentTime = 10;
       });
@@ -220,12 +255,16 @@ describe('Google Analytics Plugin', function () {
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
         player.addEventListener(player.Event.SEEKED, () => {
           player.addEventListener(player.Event.ENDED, () => {
-            verifyEventName(dataLayer[dataLayer.length - 3], '100% watched');
-            verifyEventParams(dataLayer[dataLayer.length - 3]);
-            verifyEventValue(dataLayer[dataLayer.length - 3], 13);
-            verifyEventName(dataLayer[dataLayer.length - 1], 'ended');
-            verifyEventParams(dataLayer[dataLayer.length - 1]);
-            done();
+            try {
+              verifyEventName(dataLayer[dataLayer.length - 3], '100% watched');
+              verifyEventParams(dataLayer[dataLayer.length - 3]);
+              verifyEventValue(dataLayer[dataLayer.length - 3], 13);
+              verifyEventName(dataLayer[dataLayer.length - 1], 'ended');
+              verifyEventParams(dataLayer[dataLayer.length - 1]);
+              done();
+            } catch (e) {
+              done(e);
+            }
           });
           player.play();
         });
@@ -235,26 +274,34 @@ describe('Google Analytics Plugin', function () {
     });
 
     it('should send enter full screen', done => {
-      sinon.stub(player, 'isFullscreen').callsFake(() => true);
+      sinon.stub(player._localPlayer, 'isFullscreen').callsFake(() => true);
       player.addEventListener(player.Event.ENTER_FULLSCREEN, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'enter full screen');
-        verifyEventParams(dataLayer[dataLayer.length - 1]);
-        verifyEventValue(dataLayer[dataLayer.length - 1], 1);
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'enter full screen');
+          verifyEventParams(dataLayer[dataLayer.length - 1]);
+          verifyEventValue(dataLayer[dataLayer.length - 1], 1);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.notifyEnterFullscreen();
     });
 
     it('should send exit full screen', done => {
       let isFullscreen = true;
-      sinon.stub(player, 'isFullscreen').callsFake(() => isFullscreen);
+      sinon.stub(player._localPlayer, 'isFullscreen').callsFake(() => isFullscreen);
       player.addEventListener(player.Event.ENTER_FULLSCREEN, () => {
         isFullscreen = false;
         player.addEventListener(player.Event.EXIT_FULLSCREEN, () => {
-          verifyEventName(dataLayer[dataLayer.length - 1], 'exit full screen');
-          verifyEventParams(dataLayer[dataLayer.length - 1]);
-          verifyEventValue(dataLayer[dataLayer.length - 1], 1);
-          done();
+          try {
+            verifyEventName(dataLayer[dataLayer.length - 1], 'exit full screen');
+            verifyEventParams(dataLayer[dataLayer.length - 1]);
+            verifyEventValue(dataLayer[dataLayer.length - 1], 1);
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
         player.notifyExitFullscreen();
       });
@@ -279,30 +326,42 @@ describe('Google Analytics Plugin', function () {
 
     it('should send change media', done => {
       player.addEventListener(player.Event.CHANGE_SOURCE_ENDED, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'change media');
-        verifyEventParams(dataLayer[dataLayer.length - 1], {label: `${CMpartnerId} | ${CMuiConfId} | ${CMid} | '${CMentryName}'`});
-        verifyEventValue(dataLayer[dataLayer.length - 1], 1);
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'change media');
+          verifyEventParams(dataLayer[dataLayer.length - 1], {label: `${CMpartnerId} | ${CMuiConfId} | ${CMid} | '${CMentryName}'`});
+          verifyEventValue(dataLayer[dataLayer.length - 1], 1);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.configure(CMconfig);
     });
 
     it('should send critical error', done => {
       player.addEventListener(player.Event.ERROR, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'error');
-        verifyEventParams(dataLayer[dataLayer.length - 1], {
-          category: 'Kaltura Video Error',
-          label: 'NO_SOURCE_PROVIDED'
-        });
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'error');
+          verifyEventParams(dataLayer[dataLayer.length - 1], {
+            category: 'Kaltura Video Error',
+            label: 'NO_SOURCE_PROVIDED'
+          });
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.dispatchEvent(new FakeEvent('error', new Error(Error.Severity.CRITICAL, Error.Category.PLAYER, Error.Code.NO_SOURCE_PROVIDED)));
     });
 
     it('should not send non critical error', done => {
       player.addEventListener(player.Event.ERROR, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'widget loaded');
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'widget loaded');
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.dispatchEvent(new FakeEvent('error', new Error(Error.Severity.RECOVERABLE, Error.Category.PLAYER, Error.Code.NO_SOURCE_PROVIDED)));
     });
@@ -311,6 +370,8 @@ describe('Google Analytics Plugin', function () {
   describe('configuration', () => {
     beforeEach(function () {
       config = {
+        targetId,
+        provider: {},
         id,
         sources: {
           progressive: [
@@ -363,8 +424,12 @@ describe('Google Analytics Plugin', function () {
       };
       setupPlayer(config);
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
-        verifyEventParams(dataLayer[dataLayer.length - 1], {label: 'custom string label'});
-        done();
+        try {
+          verifyEventParams(dataLayer[dataLayer.length - 1], {label: 'custom string label'});
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.load();
     });
@@ -377,8 +442,12 @@ describe('Google Analytics Plugin', function () {
       };
       setupPlayer(config);
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
-        verifyEventParams(dataLayer[dataLayer.length - 1], {label: 'medialoaded 123456'});
-        done();
+        try {
+          verifyEventParams(dataLayer[dataLayer.length - 1], {label: 'medialoaded 123456'});
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.load();
     });
@@ -389,8 +458,12 @@ describe('Google Analytics Plugin', function () {
       };
       setupPlayer(config);
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
-        verifyEventValue(dataLayer[dataLayer.length - 1], 10);
-        done();
+        try {
+          verifyEventValue(dataLayer[dataLayer.length - 1], 10);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.load();
     });
@@ -403,8 +476,12 @@ describe('Google Analytics Plugin', function () {
       };
       setupPlayer(config);
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
-        verifyEventValue(dataLayer[dataLayer.length - 1], 27);
-        done();
+        try {
+          verifyEventValue(dataLayer[dataLayer.length - 1], 27);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.load();
     });
@@ -422,10 +499,14 @@ describe('Google Analytics Plugin', function () {
       };
       setupPlayer(config);
       player.addEventListener(player.Event.MUTE_CHANGE, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'mute');
-        verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom category', label: 'custom label'});
-        verifyEventValue(dataLayer[dataLayer.length - 1], 0);
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'mute');
+          verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom category', label: 'custom label'});
+          verifyEventValue(dataLayer[dataLayer.length - 1], 0);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.muted = true;
     });
@@ -451,10 +532,14 @@ describe('Google Analytics Plugin', function () {
       };
       setupPlayer(config);
       player.addEventListener(player.Event.MUTE_CHANGE, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'mute 25');
-        verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom category 25', label: 'custom label 25'});
-        verifyEventValue(dataLayer[dataLayer.length - 1], 25);
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'mute 25');
+          verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom category 25', label: 'custom label 25'});
+          verifyEventValue(dataLayer[dataLayer.length - 1], 25);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.muted = true;
     });
@@ -470,9 +555,13 @@ describe('Google Analytics Plugin', function () {
       };
       setupPlayer(config);
       player.addEventListener(player.Event.MEDIA_LOADED, () => {
-        verifyEventName(dataLayer[dataLayer.length - 1], 'custom media ready');
-        verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom category'});
-        done();
+        try {
+          verifyEventName(dataLayer[dataLayer.length - 1], 'custom media ready');
+          verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom category'});
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       player.load();
     });
