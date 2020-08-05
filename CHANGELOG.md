@@ -1,6 +1,22 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [0.2.0](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.6...v0.2.0) (2020-08-05)
+
+
+### Build System
+
+* **FEC-9495:** update after deploy stage to ping Jenkins ([#29](https://github.com/kaltura/playkit-js-google-analytics/issues/29)) ([ae025c5](https://github.com/kaltura/playkit-js-google-analytics/commit/ae025c5))
+* github bad certificate ([#31](https://github.com/kaltura/playkit-js-google-analytics/issues/31)) ([be4e689](https://github.com/kaltura/playkit-js-google-analytics/commit/be4e689))
+
+
+### Features
+
+* **FEC-10057:** move the plugin manager to kaltura player ([#36](https://github.com/kaltura/playkit-js-google-analytics/issues/36)) ([62fec4b](https://github.com/kaltura/playkit-js-google-analytics/commit/62fec4b))
+* **FEC-10290:** upgrade NPM packages ([#35](https://github.com/kaltura/playkit-js-google-analytics/issues/35)) ([71dc196](https://github.com/kaltura/playkit-js-google-analytics/commit/71dc196))
+
+
 
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.5...v0.1.6) (2019-10-31)
