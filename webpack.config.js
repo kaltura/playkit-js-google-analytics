@@ -20,7 +20,6 @@ module.exports = {
     path: __dirname + '/dist',
     filename: '[name].js',
     library: ['KalturaPlayer', 'plugins', 'googleAnalytics'],
-    libraryTarget: 'umd',
     devtoolModuleFilenameTemplate: './google-analytics/[resource-path]'
   },
   devtool: 'source-map',
@@ -60,11 +59,6 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
   externals: {
-    'kaltura-player-js': {
-      commonjs: 'kaltura-player-js',
-      commonjs2: 'kaltura-player-js',
-      amd: 'kaltura-player-js',
-      root: ['KalturaPlayer']
-    }
+    'kaltura-player-js': ['KalturaPlayer']
   }
 };
