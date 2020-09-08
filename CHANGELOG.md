@@ -1,6 +1,23 @@
-# Changelog
+# Change Log
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.2.0...v1.0.0) (2020-09-08)
+
+
+### Features
+
+* **FEC-10347:** expose kaltura player as a global variable instead of UMD ([#38](https://github.com/kaltura/playkit-js-google-analytics/issues/38)) ([a859b00](https://github.com/kaltura/playkit-js-google-analytics/commit/a859b00))
+
+
+### BREAKING CHANGES
+
+* **FEC-10347:** This package is not UMD anymore
+
+Solves FEC-10347
+
+
 
 ## [0.2.0](https://github.com/kaltura/playkit-js-google-analytics/compare/v0.1.6...v0.2.0) (2020-08-05)
 
