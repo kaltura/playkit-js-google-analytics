@@ -101,6 +101,7 @@ export default class GoogleAnalytics extends BasePlugin {
     this._gtag('js', new Date());
     // $FlowFixMe
     this.config.trackingId && this._gtag('config', this.config.trackingId);
+    // $FlowFixMe
     this.config.trackingGA4Id && this._gtag('config', this.config.trackingGA4Id);
   }
 
