@@ -59,7 +59,8 @@ Finally, add the bundle as a script tag in your page, and initialize the player
       player: {
        plugins: {
          googleAnalytics: {
-           trackingId: 'UA-1234567-89'
+           trackingId: 'UA-1234567-89',
+           trackingGA4Id: 'G-0123456789'
          }
         ...
        }

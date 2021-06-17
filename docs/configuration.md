@@ -7,6 +7,7 @@ The configuration uses the following structure:
 ```js
 {
   trackingId: string,
+  trackingGA4Id: string,
   tracking: {
     category: string | function,
     label: string | function,
@@ -35,9 +36,19 @@ The configuration uses the following structure:
 >
 > ##### Type: `string`
 >
-> ##### required: `true`
+> ##### required: `false`
 >
-> ##### Description: The Google Analytics tracking ID.
+> ##### Description: The Universal Analytics Account ID (Can be configured in addition to the `trackingGA4Id`).
+
+##
+
+> ### trackingGA4Id
+>
+> ##### Type: `string`
+>
+> ##### required: `false`
+>
+> ##### Description: The GA4 data stream ID (Can be configured in addition to the `trackingId`).
 
 ##
 

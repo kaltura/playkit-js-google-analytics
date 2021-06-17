@@ -64,7 +64,7 @@ export default class GoogleAnalytics extends BasePlugin {
    */
   constructor(name: string, player: Player, config: Object) {
     super(name, player, config);
-    if (this.config.trackingId) {
+    if (this.config.trackingId || this.config.trackingGA4Id) {
       this._init();
       this._addBindings();
       this._sendEvent({
@@ -92,7 +92,7 @@ export default class GoogleAnalytics extends BasePlugin {
    */
   _init(): void {
     if (!window.google_tag_manager) {
-      Utils.Dom.loadScriptAsync(`${GoogleAnalytics.GTAG_LIB_URL}?id=${this.config.trackingId}`).then(() => {
+      Utils.Dom.loadScriptAsync(`${GoogleAnalytics.GTAG_LIB_URL}?id=${this.config.trackingId || this.config.trackingGA4Id}`).then(() => {
         this.logger.debug('Google gtag library has loaded successfully');
       });
     }
@@ -100,7 +100,8 @@ export default class GoogleAnalytics extends BasePlugin {
     // $FlowFixMe
     this._gtag('js', new Date());
     // $FlowFixMe
-    this._gtag('config', this.config.trackingId);
+    this.config.trackingId && this._gtag('config', this.config.trackingId);
+    this.config.trackingGA4Id && this._gtag('config', this.config.trackingGA4Id);
   }
 
   /**
