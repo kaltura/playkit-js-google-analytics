@@ -38,7 +38,7 @@ The configuration uses the following structure:
 >
 > ##### required: `false`
 >
-> ##### Description: The Universal Analytics Account ID (Can be configured in addition to the `trackingGA4Id`).
+> ##### Description: The Universal Analytics Account ID (Can be configured in addition to the `trackingGA4Id`, one of them is mandatory).
 
 ##
 
@@ -48,7 +48,7 @@ The configuration uses the following structure:
 >
 > ##### required: `false`
 >
-> ##### Description: The GA4 data stream ID (Can be configured in addition to the `trackingId`).
+> ##### Description: The GA4 data stream ID (Can be configured in addition to the `trackingId`, one of them is mandatory).
 
 ##
 
