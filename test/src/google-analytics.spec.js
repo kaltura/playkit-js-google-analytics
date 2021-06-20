@@ -1,7 +1,7 @@
-import '../../src/index.js';
+import GoogleAnalytics from '../../src/index.js';
 import {core, setup} from 'kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
-const {FakeEvent, Error} = core;
+const {FakeEvent, Error, Utils} = core;
 
 const targetId = 'player-placeholder_google-analytics.spec';
 
@@ -17,7 +17,7 @@ describe('Google Analytics Plugin', function () {
   const CMuiConfId = 654321;
   const CMentryName = 'change media name';
 
-  let config;
+  let config, sandbox;
 
   const CMconfig = {
     CMid,
@@ -85,6 +85,7 @@ describe('Google Analytics Plugin', function () {
   after(function () {
     TestUtils.removeElement(targetId);
   });
+
   describe('default events', () => {
     beforeEach(function () {
       config = {
@@ -534,7 +535,10 @@ describe('Google Analytics Plugin', function () {
       player.addEventListener(player.Event.MUTE_CHANGE, () => {
         try {
           verifyEventName(dataLayer[dataLayer.length - 1], 'mute 25');
-          verifyEventParams(dataLayer[dataLayer.length - 1], {category: 'custom category 25', label: 'custom label 25'});
+          verifyEventParams(dataLayer[dataLayer.length - 1], {
+            category: 'custom category 25',
+            label: 'custom label 25'
+          });
           verifyEventValue(dataLayer[dataLayer.length - 1], 25);
           done();
         } catch (e) {
@@ -564,6 +568,118 @@ describe('Google Analytics Plugin', function () {
         }
       });
       player.load();
+    });
+  });
+
+  describe('UA and GA4', () => {
+    beforeEach(function () {
+      window.dataLayer = null;
+      sandbox = sinon.createSandbox();
+    });
+
+    afterEach(function () {
+      sandbox.restore();
+      Utils.Dom.loadScriptAsync.restore();
+    });
+
+    it('Should send for both UA and GA4', done => {
+      sinon.stub(Utils.Dom, 'loadScriptAsync').callsFake(url => {
+        try {
+          url.should.equal(`${GoogleAnalytics.GTAG_LIB_URL}?id=UA-1234567-89`);
+        } catch (e) {
+          done(e);
+        }
+        return Promise.resolve();
+      });
+      config = {
+        targetId,
+        provider: {},
+        id,
+        sources: {
+          progressive: [
+            {
+              mimetype: 'video/mp4',
+              url: 'https://www.w3schools.com/tags/movie.mp4'
+            }
+          ]
+        },
+        plugins: {
+          googleAnalytics: {
+            trackingId: 'UA-1234567-89',
+            trackingGA4Id: 'G-0123456789'
+          }
+        }
+      };
+      setupPlayer(config);
+      Array.from(dataLayer[1]).should.deep.equal(['config', 'UA-1234567-89']);
+      Array.from(dataLayer[2]).should.deep.equal(['config', 'G-0123456789']);
+      done();
+    });
+
+    it('Should send for UA only', done => {
+      sinon.stub(Utils.Dom, 'loadScriptAsync').callsFake(url => {
+        try {
+          url.should.equal(`${GoogleAnalytics.GTAG_LIB_URL}?id=UA-1234567-89`);
+        } catch (e) {
+          done(e);
+        }
+        return Promise.resolve();
+      });
+      config = {
+        targetId,
+        provider: {},
+        id,
+        sources: {
+          progressive: [
+            {
+              mimetype: 'video/mp4',
+              url: 'https://www.w3schools.com/tags/movie.mp4'
+            }
+          ]
+        },
+        plugins: {
+          googleAnalytics: {
+            trackingId: 'UA-1234567-89'
+          }
+        }
+      };
+      setupPlayer(config);
+      Array.from(dataLayer[1]).should.deep.equal(['config', 'UA-1234567-89']);
+      dataLayer[2][0].should.not.equal('config');
+      done();
+    });
+
+    it('Should send for GA4 only', done => {
+      sinon.stub(Utils.Dom, 'loadScriptAsync').callsFake(url => {
+        try {
+          url.should.equal(`${GoogleAnalytics.GTAG_LIB_URL}?id=G-0123456789`);
+        } catch (e) {
+          done(e);
+        }
+        return Promise.resolve();
+      });
+      config = {
+        targetId,
+        provider: {},
+        id,
+        sources: {
+          progressive: [
+            {
+              mimetype: 'video/mp4',
+              url: 'https://www.w3schools.com/tags/movie.mp4'
+            }
+          ]
+        },
+        plugins: {
+          googleAnalytics: {
+            trackingGA4Id: 'G-0123456789'
+          }
+        }
+      };
+      setupPlayer(config);
+      Array.from(dataLayer[1]).should.deep.equal(['config', 'G-0123456789']);
+      dataLayer[2][0].should.not.equal('config');
+      done();
     });
   });
 });
