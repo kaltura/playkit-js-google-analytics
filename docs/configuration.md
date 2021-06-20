@@ -48,7 +48,7 @@ The configuration uses the following structure:
 >
 > ##### required: `false`
 >
-> ##### Description: The GA4 data stream ID (Can be configured in addition to the `trackingId`, one of them is mandatory).
+> ##### Description: The Google Analytics 4 data stream ID (Can be configured in addition to the `trackingId`, one of them is mandatory).
 
 ##
 
