@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/kaltura/playkit-js-google-analytics/compare/v1.0.1...v1.1.0) (2021-07-01)
+
+
+### Build System
+
+* **FEC-10700:** Improvement for CI/CD ([#54](https://github.com/kaltura/playkit-js-google-analytics/issues/54)) ([0b10fdf](https://github.com/kaltura/playkit-js-google-analytics/commit/0b10fdf))
+
+
+### Features
+
+* **FEC-11195:** Google Analytics 4 support ([#55](https://github.com/kaltura/playkit-js-google-analytics/issues/55)) ([4ec0b8b](https://github.com/kaltura/playkit-js-google-analytics/commit/4ec0b8b))
+
+
+
 ### [1.0.1](https://github.com/kaltura/playkit-js-google-analytics/compare/v1.0.0...v1.0.1) (2020-11-03)
 
 
