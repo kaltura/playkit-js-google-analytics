@@ -1,4 +1,4 @@
-import {core} from 'kaltura-player-js';
+import {core} from '@playkit-js/kaltura-player-js';
 const {Error} = core;
 
 export default {
