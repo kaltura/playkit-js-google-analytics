@@ -1,5 +1,5 @@
 import GoogleAnalytics from '../../src/index.js';
-import {core, setup} from 'kaltura-player-js';
+import {core, setup} from '@playkit-js/kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
 const {FakeEvent, Error, Utils} = core;
 

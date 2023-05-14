@@ -1,5 +1,5 @@
 // @flow
-import {core, BasePlugin} from 'kaltura-player-js';
+import {core, BasePlugin} from '@playkit-js/kaltura-player-js';
 import defaultTracking from './default-tracking';
 
 const {Utils} = core;
