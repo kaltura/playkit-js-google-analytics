@@ -64,15 +64,19 @@ export default class GoogleAnalytics extends BasePlugin {
    */
   constructor(name: string, player: Player, config: Object) {
     super(name, player, config);
-    if (this.config.trackingId || this.config.trackingGA4Id) {
-      this._init();
-      this._addBindings();
-      this._sendEvent({
-        action: WIDGET_LOADED_ACTION,
-        category: this._getValue(this.config.tracking.category)
-      });
+    if (document.cookie) {
+      if (this.config.trackingId || this.config.trackingGA4Id) {
+        this._init();
+        this._addBindings();
+        this._sendEvent({
+          action: WIDGET_LOADED_ACTION,
+          category: this._getValue(this.config.tracking.category)
+        });
+      } else {
+        this.logger.warn('No Google Analytics tracking ID provided. Tracking aborted');
+      }
     } else {
-      this.logger.warn('No Google Analytics tracking ID provided. Tracking aborted');
+      this.logger.warn('No cookies enabled. Tracking aborted');
     }
   }
 
