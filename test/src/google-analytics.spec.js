@@ -7,13 +7,13 @@ const targetId = 'player-placeholder_google-analytics.spec';
 
 describe('Google Analytics Plugin', function () {
   let player;
-  const id = '1_rwbj3j0a';
-  const partnerId = 1068292;
+  const id = '0_fnkamt8x';
+  const partnerId = 243342;
   const uiConfId = 123456;
   const entryName = 'some name';
 
-  const CMid = '1_fdsfds78';
-  const CMpartnerId = 876543;
+  const CMid = '0_uka1msg4';
+  const CMpartnerId = 243342;
   const CMuiConfId = 654321;
   const CMentryName = 'change media name';
 
