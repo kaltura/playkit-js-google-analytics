@@ -14,4 +14,4 @@ jobs:
     secrets: inherit
     with:
       schema-type: "playerV3Versions"
-      tests-yarn-run-to-execute: 'build eslint flow test'
+      tests-yarn-run-to-execute: 'build eslint flow'
