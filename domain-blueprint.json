@@ -1,0 +1,113 @@
+{
+  "repositoryName": "playkit-js-google-analytics",
+  "coreResponsibility": {
+    "summary": "A Kaltura Player JS plugin that integrates Google Analytics (Universal Analytics and GA4) to track and report video player events and user engagement metrics.",
+    "type": "plugin"
+  },
+  "domainAndLogicOwnership": {
+    "featureOwnership": [
+      "Google Analytics integration (Universal Analytics UA and GA4)",
+      "Video player event tracking to Google Analytics",
+      "Playback milestone tracking (25%, 50%, 75%, 100% watched)",
+      "Widget load tracking",
+      "Player lifecycle event tracking (play, pause, seek, ended, fullscreen)",
+      "Error event tracking with severity filtering",
+      "Media change tracking",
+      "Custom event mapping and configuration",
+      "gtag.js library loading and management",
+      "dataLayer population for Google Tag Manager"
+    ],
+    "dataHandling": [
+      "Google Analytics tracking IDs (UA-* and G-*)",
+      "Player event payloads (action, category, label, value)",
+      "Playback progress percentage state",
+      "Entry metadata (entryId, entryName, partnerId, uiConfId)",
+      "Error codes and severity levels",
+      "Time percent event flags for milestone deduplication"
+    ]
+  },
+  "integrationPoints": {
+    "upstream": [
+      {
+        "name": "@playkit-js/kaltura-player-js",
+        "description": "Parent player framework that provides BasePlugin, event system, and player instance"
+      },
+      {
+        "name": "@playkit-js/playkit-js",
+        "description": "Core playkit library providing player events, utilities, and error definitions"
+      }
+    ],
+    "downstream": [
+      {
+        "name": "Google Analytics",
+        "description": "Receives tracked events via gtag API"
+      },
+      {
+        "name": "Google Tag Manager",
+        "description": "Receives events through dataLayer for further processing"
+      }
+    ]
+  },
+  "externalApis": [
+    {
+      "name": "Google gtag.js",
+      "type": "3rd party SDK",
+      "url": "//www.googletagmanager.com/gtag/js",
+      "description": "Google's global site tag library for sending analytics data"
+    },
+    {
+      "name": "Google Analytics 4 (GA4)",
+      "type": "3rd party service",
+      "description": "Next-generation Google Analytics with event-based data model"
+    },
+    {
+      "name": "Google Universal Analytics",
+      "type": "3rd party service",
+      "description": "Legacy Google Analytics using tracking IDs (UA-*)"
+    }
+  ],
+  "technicalStack": {
+    "primaryLanguages": ["JavaScript (ES6)", "Flow"],
+    "frameworks": ["Webpack", "Babel", "Karma", "Mocha"],
+    "buildTools": ["yarn", "webpack", "babel"],
+    "testFrameworks": ["Karma", "Mocha", "Chai", "Sinon"],
+    "entryPoints": [
+      {
+        "file": "src/index.js",
+        "description": "Main entry point that registers the googleAnalytics plugin with Kaltura Player"
+      },
+      {
+        "file": "src/google-analytics.js",
+        "description": "Core plugin class extending BasePlugin with all tracking logic"
+      },
+      {
+        "file": "src/default-tracking.js",
+        "description": "Default event tracking configuration mapping player events to GA actions"
+      }
+    ],
+    "outputArtifact": "dist/playkit-google-analytics.js"
+  },
+  "triageKeywords": [
+    "google analytics",
+    "GA",
+    "GA4",
+    "gtag",
+    "tracking ID",
+    "trackingId",
+    "trackingGA4Id",
+    "dataLayer",
+    "widget loaded",
+    "25% watched",
+    "50% watched",
+    "75% watched",
+    "100% watched",
+    "event_category",
+    "event_label",
+    "googletagmanager",
+    "analytics tracking",
+    "playkit-google-analytics",
+    "No Google Analytics tracking ID provided",
+    "Kaltura Video Events",
+    "Kaltura Video Error"
+  ]
+}
