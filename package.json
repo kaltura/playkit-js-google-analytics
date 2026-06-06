@@ -35,6 +35,8 @@
     "prettier:fix": "prettier --write .",
     "pushTaggedRelease": "git push --follow-tags --no-verify origin master",
     "release": "standard-version",
+    "test:prepare": "yarn run build && yes | cp -i ./dist/playkit-google-analytics.js ./cypress/public/plugin.js",
+    "test:watch": "yarn run test:prepare && cypress open",
     "test": "NODE_ENV=test karma start --color --mode development",
     "watch": "webpack --progress --colors --watch --mode development"
   },
