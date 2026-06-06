@@ -12,6 +12,7 @@ export function prepareTestEnvironment() {
   global.expect = chai.expect;
   global.should = chai.should;
   global.sinon = sinon;
+  document.cookie = 'test=1';
 }
 
 export default prepareTestEnvironment;
