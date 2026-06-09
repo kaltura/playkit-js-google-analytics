@@ -74,7 +74,7 @@
     "copy-webpack-plugin": "^6.0.3",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.2",
-    "cypress": "^15.16.0",
+    "cypress": "13",
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-loader": "^4.0.2",
