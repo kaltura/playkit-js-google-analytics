@@ -26,9 +26,9 @@
   "scripts": {
     "preinstall": "npx --yes --prefer-online --registry=https://npm.pkg.github.com --package @kaltura/kaltura-tools@latest kaltura-tools check --root=.",
     "prebuild": "npm run clean",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",
+    "build": "webpack --mode production",
     "clean": "rm -rf ./dist",
-    "dev": "NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --mode development",
+    "dev": "webpack-dev-server --mode development",
     "eslint": "eslint . --color",
     "flow": "flow check",
     "precommit": "lint-staged",
@@ -37,8 +37,8 @@
     "release": "standard-version",
     "test:prepare": "npm run build && copyfiles -f ./dist/playkit-google-analytics.js ./dist/playkit-google-analytics.js.map ./cypress/public",
     "test:watch": "npm run test:prepare && npm run cy:open",
-    "test": "NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=test karma start --color --mode development",
-    "watch": "NODE_OPTIONS=--openssl-legacy-provider webpack --progress --colors --watch --mode development"
+    "test": "NODE_ENV=test karma start --color --mode development",
+    "watch": "webpack --progress --colors --watch --mode development"
   },
   "lint-staged": {
     "*.{js,jsx}": [
